@@ -1,0 +1,33 @@
+{
+  "name": "scsynth",
+  "description": "sound processing like SuperCollider in JavaScript",
+  "version": "0.0.0",
+  "author": "Nao Yonamine <mohayonao@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/mohayonao/scsynth/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "files": [
+    "package.json",
+    "README.md",
+    "lib"
+  ],
+  "homepage": "https://github.com/mohayonao/scsynth/",
+  "keywords": [
+    "dsp",
+    "sound",
+    "supercollider",
+    "synthdef"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohayonao/scsynth.git"
+  },
+  "scripts": {}
+}
