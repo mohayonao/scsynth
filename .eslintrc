@@ -1,0 +1,11 @@
+{
+  "plugins": [ "node" ],
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "rules": {
+    "node/no-unsupported-features": [ 2, { "version": 6 } ]
+  },
+  "extends": "eslint:recommended"
+}

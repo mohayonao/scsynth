@@ -1,0 +1,16 @@
+{
+  "env": {
+    "production": {
+      "only": [ "src" ],
+      "presets": [
+        "babel-preset-es2015"
+      ]
+    },
+    "development": {
+      "only": [ "test" ],
+      "presets": [
+        "babel-preset-power-assert"
+      ]
+    }
+  }
+}
