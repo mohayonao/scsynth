@@ -5,6 +5,7 @@
     "node": true
   },
   "rules": {
+    "no-use-before-define": ["error", { "functions": false, "classes": true } ],
     "node/no-unsupported-features": [ 2, { "version": 6 } ]
   },
   "extends": "eslint:recommended"

@@ -63,12 +63,10 @@ class SCSynth extends SCGraphNode {
   }
 
   dspProcess() {
-    const unitList = this.unitList;
+    const dspUnitList = this.dspUnitList;
 
-    this.buffer.fill(0);
-
-    for (let i = 0, imax = unitList.length; i < imax; i++) {
-      unitList[i].dspProcess(unitList[i].bufferLength);
+    for (let i = 0, imax = dspUnitList.length; i < imax; i++) {
+      dspUnitList[i].dspProcess(dspUnitList[i].bufferLength);
     }
   }
 }
