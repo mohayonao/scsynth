@@ -18,11 +18,13 @@ class SCSynthBuilder {
     }, 0);
     const buffer = new Float32Array(bufferLength);
     const unitList = [];
+    const dspUnitList = [];
 
     synthInstance.consts = consts;
     synthInstance.params = params;
     synthInstance.buffer = buffer;
     synthInstance.unitList = unitList;
+    synthInstance.dspUnitList = dspUnitList;
 
     const specs = synthdef.specs;
     let bufferOffset = 0;
@@ -60,10 +62,10 @@ class SCSynthBuilder {
       unit.bufferLength = rate.bufferLength;
       unit.initialize(rate);
 
+      unitList[i] = unit;
+
       if (unit.dspProcess && unit.calcRate !== C.RATE_DEMAND) {
-        unitList[i] = unit;
-      } else {
-        unitList[i] = null;
+        dspUnitList.push(unit);
       }
     }
 
