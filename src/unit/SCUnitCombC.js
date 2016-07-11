@@ -30,8 +30,8 @@ dspProcess["kk"] = function (inNumSamples) {
   const decaytime = this.inputs[3][0];
   const dlybuf = this._dlybuf;
   const mask = this._mask;
+  const dsamp = this._dsamp;
   const frac = dsamp - (dsamp | 0);
-  let dsamp = this._dsamp;
   let feedbk = this._feedbk;
   let iwrphase = this._iwrphase;
   let irdphase;
@@ -73,7 +73,7 @@ dspProcess["kk"] = function (inNumSamples) {
     const nextFeedbk = delay.feedback(delaytime, decaytime);
     const feedbkSlope = (nextFeedbk - feedbk) * this._slopeFactor;
     for (let i = 0; i < inNumSamples; i++) {
-      irdphase = iwrphase - (dsamp | 0);
+      irdphase = iwrphase - ((dsamp + dsampSlope * i) | 0);
       const d0 = dlybuf[irdphase + 1 & mask];
       const d1 = dlybuf[irdphase & mask];
       const d2 = dlybuf[irdphase - 1 & mask];
@@ -81,7 +81,6 @@ dspProcess["kk"] = function (inNumSamples) {
       const value = cubicinterp(frac, d0, d1, d2, d3) || 0;
       dlybuf[iwrphase & mask] = inIn[i] + feedbk * value || 0;
       out[i] = value;
-      dsamp += dsampSlope;
       feedbk += feedbkSlope;
       irdphase++;
       iwrphase++;

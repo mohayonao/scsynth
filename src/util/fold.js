@@ -21,7 +21,10 @@ function fold(val, lo, hi) {
 
   const range1 = hi - lo;
   const range2 = range1 * 2;
-  const x = (val - lo) - range2 * Math.floor(x / range2);
+
+  let x = (val - lo);
+
+  x -= range2 * Math.floor(x / range2);
 
   if (x >= range1) {
     return range2 - x + lo;
