@@ -7,44 +7,44 @@ doneAction[0] = null;
 
 // pause the enclosing synth, but do not free it
 doneAction[1] = (node) => {
-  node.run(false);
+  node.stop();
 };
 
 // free the enclosing synth
 doneAction[2] = (node) => {
-  node.end();
+  node.close();
 };
 
 // free both this synth and the preceding node
 doneAction[3] = (node) => {
   if (node.prev) {
-    node.prev.end();
+    node.prev.close();
   }
-  node.end();
+  node.close();
 };
 
 // free both this synth and the following node
 doneAction[4] = (node) => {
   if (node.next) {
-    node.next.end();
+    node.next.close();
   }
-  node.end();
+  node.close();
 };
 
 // free this synth; if the preceding node is a group then do g_freeAll on it, else free it
 doneAction[5] = (node) => {
   if (node.prev) {
-    node.prev.endAll();
+    node.prev.closeAll();
   }
-  node.end();
+  node.close();
 };
 
 // free this synth; if the following node is a group then do g_freeAll on it, else free it
 doneAction[6] = (node) => {
   if (node.next) {
-    node.next.endAll();
+    node.next.closeAll();
   }
-  node.end();
+  node.close();
 };
 
 // free this synth and all preceding nodes in this group
@@ -52,7 +52,7 @@ doneAction[7] = (node) => {
   let prev;
   while (node) {
     prev = node.prev;
-    node.end();
+    node.close();
     node = prev;
   }
 };
@@ -62,7 +62,7 @@ doneAction[8] = (node) => {
   let next;
   while (node) {
     next = node.next;
-    node.end();
+    node.close();
     node = next;
   }
 };
@@ -70,42 +70,42 @@ doneAction[8] = (node) => {
 // free this synth and pause the preceding node
 doneAction[9] = (node) => {
   if (node.prev) {
-    node.prev.run(false);
+    node.prev.stop();
   }
-  node.end();
+  node.close();
 };
 
 // free this synth and pause the following node
 doneAction[10] = (node) => {
   if (node.next) {
-    node.next.run(false);
+    node.next.stop();
   }
-  node.end();
+  node.close();
 };
 
 // free this synth and if the preceding node is a group then do g_deepFree on it, else free it
 doneAction[11] = (node) => {
   if (node.prev) {
-    node.prev.endDeep();
+    node.prev.closeDeep();
   }
-  node.end();
+  node.close();
 };
 
 // free this synth and if the following node is a group then do g_deepFree on it, else free it
 doneAction[12] = (node) => {
   if (node.next) {
-    node.next.endDeep();
+    node.next.closeDeep();
   }
-  node.end();
+  node.close();
 };
 
 // free this synth and all other nodes in this group (before and after)
-doneAction[13] = (node, next) => {
+doneAction[13] = (node) => {
   if (node.parent) {
     node = node.parent.head;
     while (node) {
-      next = node.next;
-      node.end();
+      const next = node.next;
+      node.close();
       node = next;
     }
   }
@@ -113,7 +113,9 @@ doneAction[13] = (node, next) => {
 
 // free the enclosing group and all nodes within it (including this synth)
 doneAction[14] = (node) => {
-  node.parent.endDeep();
+  if (node.parent) {
+    node.parent.closeDeep();
+  }
 };
 
 module.exports = doneAction;

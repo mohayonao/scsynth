@@ -18,7 +18,8 @@
     "eslint-plugin-node": "^2.0.0",
     "npm-run-all": "^2.3.0",
     "nyc": "^7.0.0",
-    "power-assert": "^1.4.1"
+    "power-assert": "^1.4.1",
+    "sinon": "^1.17.4"
   },
   "engines": {
     "node": ">= 4.0.0"
@@ -49,8 +50,8 @@
     "eater": "eater",
     "lint": "eslint src test",
     "postversion": "git push && git push --tags && npm run clean",
-    "prepublish": "npm-run-all clean lint test build",
-    "preversion": "npm-run-all clean lint test",
+    "prepublish": "npm-run-all clean lint eater build",
+    "preversion": "npm-run-all clean lint eater",
     "test": "eater --require babel-register",
     "travis": "npm-run-all lint eater"
   }
