@@ -12,11 +12,28 @@ class SCGraphNode extends events.EventEmitter {
     this.next = null;
     this.head = null;
     this.tail = null;
-    this.running = true;
+
+    this._running = true;
   }
 
-  run(flag) {
-    this.running = !!flag;
+  get state() {
+    return this.parent !== null ? (this._running ? "running" : "suspended") : "closed";
+  }
+
+  start() {
+    if (!this._running) {
+      this._running = true;
+      this.emit("statechange");
+    }
+    return this;
+  }
+
+  stop() {
+    if (this._running) {
+      this._running = false;
+      this.emit("statechange");
+    }
+    return this;
   }
 
   addToHead(node) {
@@ -32,6 +49,7 @@ class SCGraphNode extends events.EventEmitter {
     } else {
       this.head = this.tail = node;
     }
+    node.emit("statechange");
   }
 
   addToTail(node) {
@@ -47,6 +65,7 @@ class SCGraphNode extends events.EventEmitter {
     } else {
       this.head = this.tail = node;
     }
+    node.emit("statechange");
   }
 
   addBefore(node) {
@@ -62,6 +81,7 @@ class SCGraphNode extends events.EventEmitter {
       node.parent.head = node;
     }
     this.prev = node;
+    node.emit("statechange");
   }
 
   addAfter(node) {
@@ -77,34 +97,15 @@ class SCGraphNode extends events.EventEmitter {
       node.parent.tail = node;
     }
     this.next = node;
+    node.emit("statechange");
   }
 
   replace(node) {
-    node.parent = this.parent;
-    node.prev = this.prev;
-    node.next = this.next;
-    node.head = this.head;
-    node.tail = this.tail;
-    if (this.prev) {
-      this.prev.next = node;
-    }
-    if (this.next) {
-      this.next.prev = node;
-    }
-    if (node.parent) {
-      if (node.parent.head === this) {
-        node.parent.head = node;
-      }
-      if (node.parent.tail === this) {
-        node.parent.tail = node;
-      }
-    }
-    this.parent = null;
-    this.prev = null;
-    this.next = null;
+    node.addAfter(this);
+    node.close();
   }
 
-  end() {
+  close() {
     if (this.prev) {
       this.prev.next = this.next;
     }
@@ -124,27 +125,28 @@ class SCGraphNode extends events.EventEmitter {
     this.next = null;
     this.head = null;
     this.tail = null;
-    this.running = false;
+
+    this.emit("statechange");
   }
 
-  endAll() {
+  closeAll() {
     let node = this.head;
     while (node) {
       const next = node.next;
-      node.end();
+      node.close();
       node = next;
     }
-    this.end();
+    this.close();
   }
 
-  endDeep() {
+  closeDeep() {
     let node = this.head;
     while (node) {
       const next = node.next;
-      node.endDeep();
+      node.closeDeep();
       node = next;
     }
-    this.end();
+    this.close();
   }
 
   doneAction(action) {
@@ -154,7 +156,7 @@ class SCGraphNode extends events.EventEmitter {
   }
 
   process(inNumSamples) {
-    if (this.running) {
+    if (this._running) {
       if (this.head) {
         this.head.process(inNumSamples);
       }
