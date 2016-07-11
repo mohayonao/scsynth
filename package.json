@@ -1,7 +1,7 @@
 {
   "name": "scsynth",
   "description": "sound processing like SuperCollider in JavaScript",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Nao Yonamine <mohayonao@gmail.com>",
   "bugs": {
     "url": "https://github.com/mohayonao/scsynth/issues"
