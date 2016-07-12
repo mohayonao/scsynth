@@ -9,7 +9,7 @@ const synthdef = {
   consts: [ 0 ],
   paramValues: [ 0.5, 440 ],
   paramIndices: { amp: { index: 0, length: 1 }, freq: { index: 1, length: 1 } },
-  specs: [
+  units: [
     [ "Control"     , 1, 0, [                                ], [ 1, 1 ] ],
     [ "SinOsc"      , 2, 0, [ [  0, 1 ], [ -1, 0 ]           ], [ 2    ] ],
     [ "BinaryOpUGen", 2, 2, [ [  1, 0 ], [  0, 0 ]           ], [ 2    ] ],
