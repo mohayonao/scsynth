@@ -2,7 +2,7 @@
 const C = require("../Constants");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
-const wrap = require("../util/wrap");
+const sc_wrap = require("../util/sc_wrap");
 const dspProcess = {};
 class SCUnitWrap extends SCUnit {
   initialize(rate) {
@@ -23,7 +23,7 @@ dspProcess["next_aa"] = function (inNumSamples) {
   const loIn = this.inputs[1];
   const hiIn = this.inputs[2];
   for (let i = 0; i < inNumSamples; i++) {
-    out[i] = wrap(inIn[i], loIn[i], hiIn[i]);
+    out[i] = sc_wrap(inIn[i], loIn[i], hiIn[i]);
   }
 };
 dspProcess["next_kk"] = function (inNumSamples) {
@@ -35,13 +35,13 @@ dspProcess["next_kk"] = function (inNumSamples) {
   const hi = this._hi;
   if (next_lo === lo && next_hi === hi) {
     for (let i = 0; i < inNumSamples; i++) {
-      out[i] = wrap(inIn[i], lo, hi);
+      out[i] = sc_wrap(inIn[i], lo, hi);
     }
   } else {
     const lo_slope = (next_lo - lo) * this._slopeFactor;
     const hi_slope = (next_hi - hi) * this._slopeFactor;
     for (let i = 0; i < inNumSamples; i++) {
-      out[i] = wrap(inIn[i], lo + lo_slope * i, hi + hi_slope * i);
+      out[i] = sc_wrap(inIn[i], lo + lo_slope * i, hi + hi_slope * i);
     }
     this._lo = next_lo;
     this._hi = next_hi;
