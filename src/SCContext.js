@@ -41,7 +41,11 @@ class SCContext {
   }
 
   createSynth(synthdef) {
-    return new SCSynth(this).build(synthdef);
+    const synth = new SCSynth(this);
+
+    synth.build(synthdef);
+
+    return synth;
   }
 
   createGroup() {
