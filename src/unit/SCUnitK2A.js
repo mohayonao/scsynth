@@ -1,6 +1,7 @@
 "use strict";
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
+const fillRange = require("../util/fillRange");
 const dspProcess = {};
 class SCUnitK2A extends SCUnit {
   initialize() {
@@ -8,7 +9,7 @@ class SCUnitK2A extends SCUnit {
   }
 }
 dspProcess["next"] = function (inNumSamples) {
-  this.outputs[0].fill(this.inputs[0][0], 0, inNumSamples);
+  fillRange(this.outputs[0], this.inputs[0][0], 0, inNumSamples);
 };
 SCUnitRepository.registerSCUnitClass("K2A", SCUnitK2A);
 module.exports = SCUnitK2A;

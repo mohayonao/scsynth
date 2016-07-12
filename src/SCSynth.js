@@ -36,30 +36,28 @@ class SCSynth extends SCGraphNode {
         enumerable: true, configurable: true
       });
     });
-
-    return this;
   }
 
   setParam(key, value) {
-    if (this.paramIndices.hasOwnProperty(key)) {
-      if (this.paramIndices[key].length === 1) {
-        this.params[this.paramIndices[key].index] = value;
-      } else {
-        this.params.set(value, this.paramIndices[key].index);
-      }
+    if (!this.paramIndices.hasOwnProperty(key)) {
+      throw new TypeError(`param name is not defined: ${ key }`);
     }
-    return this;
+    if (this.paramIndices[key].length === 1) {
+      this.params[this.paramIndices[key].index] = value;
+    } else {
+      this.params.set(value, this.paramIndices[key].index);
+    }
   }
 
   getParam(key) {
-    if (this.paramIndices.hasOwnProperty(key)) {
-      if (this.paramIndices[key].length === 1) {
-        return this.params[this.paramIndices[key].index];
-      } else {
-        return this.params.subarray(this.paramIndices[key].index,this.paramIndices[key].index + this.paramIndices[key].length);
-      }
+    if (!this.paramIndices.hasOwnProperty(key)) {
+      throw new TypeError(`param name is not defined: ${ key }`);
     }
-    return 0;
+    if (this.paramIndices[key].length === 1) {
+      return this.params[this.paramIndices[key].index];
+    } else {
+      return this.params.subarray(this.paramIndices[key].index,this.paramIndices[key].index + this.paramIndices[key].length);
+    }
   }
 
   dspProcess() {

@@ -2,7 +2,7 @@
 const C = require("../Constants");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
-const cubicinterp = require("../util/cubicinterp");
+const sc_cubicinterp = require("../util/sc_cubicinterp");
 const dspProcess = {};
 class SCUnitLFDNoise3 extends SCUnit {
   initialize(rate) {
@@ -38,7 +38,7 @@ dspProcess["next"] = function (inNumSamples) {
       c = d;
       d = Math.random() * 2 - 1;
     }
-    out[i] = cubicinterp(1 - phase, a, b, c, d);
+    out[i] = sc_cubicinterp(1 - phase, a, b, c, d);
   }
   this._levelA = a;
   this._levelB = b;
@@ -65,7 +65,7 @@ dspProcess["next_k"] = function (inNumSamples) {
       c = d;
       d = Math.random() * 2 - 1;
     }
-    out[i] = cubicinterp(1 - phase, a, b, c, d);
+    out[i] = sc_cubicinterp(1 - phase, a, b, c, d);
   }
   this._levelA = a;
   this._levelB = b;

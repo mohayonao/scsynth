@@ -2,7 +2,7 @@
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
 const toPowerOfTwo = require("../util/toPowerOfTwo");
-const cubicinterp = require("../util/cubicinterp");
+const sc_cubicinterp = require("../util/sc_cubicinterp");
 const clamp = require("../util/clamp");
 const dspProcess = {};
 class SCUnitDelayC extends SCUnit {
@@ -39,7 +39,7 @@ dspProcess["k"] = function (inNumSamples) {
       const d1 = dlybuf[irdphase & mask];
       const d2 = dlybuf[irdphase - 1 & mask];
       const d3 = dlybuf[irdphase - 2 & mask];
-      out[i] = cubicinterp(frac, d0, d1, d2, d3);
+      out[i] = sc_cubicinterp(frac, d0, d1, d2, d3);
       iwrphase += 1;
     }
   } else {
@@ -54,7 +54,7 @@ dspProcess["k"] = function (inNumSamples) {
       const d1 = dlybuf[irdphase & mask];
       const d2 = dlybuf[irdphase - 1 & mask];
       const d3 = dlybuf[irdphase - 2 & mask];
-      out[i] = cubicinterp(frac, d0, d1, d2, d3);
+      out[i] = sc_cubicinterp(frac, d0, d1, d2, d3);
       iwrphase += 1;
     }
     this._dsamp = nextDsamp;

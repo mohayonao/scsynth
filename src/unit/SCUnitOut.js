@@ -8,6 +8,9 @@ const dspProcess = {};
 class SCUnitOut extends SCUnit {
   initialize() {
     if (this.calcRate === C.RATE_AUDIO) {
+      // assert(
+      //   this.inputSpecs.slice(1).every(spec => spec.rate === C.RATE_AUDIO)
+      // );
       this.dspProcess = dspProcess["a"];
       this._buses = this.context.audioBuses;
     } else {
@@ -25,9 +28,8 @@ dspProcess["a"] = function(inNumSamples) {
   for (let i = 1, imax = inputs.length; i < imax; i++) {
     const bus = buses[firstBusChannel + i];
     const _in = inputs[i];
-    const nsmps = Math.min(_in.length, inNumSamples);
 
-    for (let j = 0; j < nsmps; j++) {
+    for (let j = 0; j < inNumSamples; j++) {
       bus[j] += _in[j];
     }
   }

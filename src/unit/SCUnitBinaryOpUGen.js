@@ -3,8 +3,8 @@ const C = require("../Constants");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
 const demand = require("./_demand");
-const wrap = require("../util/wrap");
-const fold = require("../util/fold");
+const sc_wrap = require("../util/sc_wrap");
+const sc_fold = require("../util/sc_fold");
 const $i2n = `
 + - * / / % eq ne lt gt le ge min max bitAnd bitOr bitXor lcm gcd round roundUp trunc atan2 hypot
 hypotApx pow leftShift rightShift unsignedRightShift fill ring1 ring2 ring3 ring4 difsqr sumsqr
@@ -192,10 +192,10 @@ dspProcess["excess"] = function (a, b) {
   return a - Math.max(-b, Math.min(a, b));
 };
 dspProcess["fold2"] = function (val, hi) {
-  return fold(val, -hi, hi);
+  return sc_fold(val, -hi, hi);
 };
 dspProcess["wrap2"] = function (val, hi) {
-  return wrap(val, -hi, hi);
+  return sc_wrap(val, -hi, hi);
 };
 dspProcess["+"]["aa"] = function (inNumSamples) {
   const out = this.outputs[0];

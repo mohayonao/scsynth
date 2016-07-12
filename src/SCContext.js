@@ -2,6 +2,7 @@
 
 const nmap = require("nmap");
 const util = require("./util");
+const fill = require("./util/fill");
 const DefaultConfig = require("./DefaultConfig");
 const SCGraphNode = require("./SCGraphNode");
 const SCSynth = require("./SCSynth");
@@ -41,7 +42,11 @@ class SCContext {
   }
 
   createSynth(synthdef) {
-    return new SCSynth(this).build(synthdef);
+    const synth = new SCSynth(this);
+
+    synth.build(synthdef);
+
+    return synth;
   }
 
   createGroup() {
@@ -57,7 +62,7 @@ class SCContext {
   }
 
   process() {
-    this.bus.fill(0);
+    fill(this.bus, 0);
     this.root.process(this.blockSize);
   }
 }

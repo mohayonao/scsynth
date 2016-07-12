@@ -2,10 +2,11 @@
 
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
+const fill = require("../util/fill");
 
 class SCUnitDC extends SCUnit {
   initialize() {
-    this.outputs[0].fill(this.inputs[0][0]);
+    fill(this.outputs[0], this.inputs[0][0]);
   }
 }
 

@@ -1,6 +1,7 @@
 "use strict";
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
+const fill = require("../util/fill");
 const dspProcess = {};
 class SCUnitVarLag extends SCUnit {
   initialize(rate) {
@@ -50,7 +51,7 @@ dspProcess["next"] = function (inNumSamples) {
       }
     }
   } else {
-    out.fill(level);
+    fill(out, level);
   }
   this._level = level;
   this._slope = slope;

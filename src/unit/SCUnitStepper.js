@@ -1,7 +1,7 @@
 "use strict";
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
-const sc_wrap = require("../util/wrap");
+const sc_wrap = require("../util/sc_wrap");
 const $r2k = [
   "i",
   "k",

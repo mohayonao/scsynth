@@ -2,6 +2,7 @@
 const C = require("../Constants");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
+const fillRange = require("../util/fillRange");
 const dspProcess = {};
 class SCUnitLatch extends SCUnit {
   initialize() {
@@ -39,7 +40,7 @@ dspProcess["next_ak"] = function (inNumSamples) {
   if (this._trig <= 0 && trig > 0) {
     level = this.inputs[0][0];
   }
-  out.fill(level, 0, inNumSamples);
+  fillRange(out, level, 0, inNumSamples);
   this._trig = trig;
   this._level = level;
 };

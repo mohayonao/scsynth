@@ -1,6 +1,7 @@
 "use strict";
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
+const fill = require("../util/fill");
 const dspProcess = {};
 class SCUnitKlang extends SCUnit {
   initialize(rate) {
@@ -233,7 +234,7 @@ dspProcess["next0"] = function (inNumSamples) {
   let y0_2, y1_2, y2_2, b1_2;
   let y0_3, y1_3, y2_3, b1_3;
   let outf;
-  out.fill(0);
+  fill(out, 0);
   for (let n = 0, nmax = this._n; n < nmax; n++) {
     y1_0 = coefs[0];
     y2_0 = coefs[1];
