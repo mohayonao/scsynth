@@ -9,7 +9,7 @@ const synthdef = {
   consts: [],
   paramValues: [ 0.5, 440, 880 ],
   paramIndices: { amp: { index: 0, length: 1 }, freq: { index: 1, length: 2 } },
-  specs: []
+  units: []
 };
 
 const context = new scsynth.SCContext();

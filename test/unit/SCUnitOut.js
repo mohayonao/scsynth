@@ -12,7 +12,7 @@ test("a", () => {
     consts: [ 0 ],
     paramValues: {},
     paramIndices: {},
-    specs: [
+    units: [
       [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
       [ "DC" , 1, 0, [ [ -1, 0 ]                     ], [ 1 ] ],
       [ "Out", 2, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
@@ -40,7 +40,7 @@ test("k", () => {
     consts: [ 0 ],
     paramValues: {},
     paramIndices: {},
-    specs: [
+    units: [
       [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
       [ "DC" , 1, 0, [ [ -1, 0 ]                     ], [ 1 ] ],
       [ "Out", 1, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]

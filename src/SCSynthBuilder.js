@@ -11,8 +11,8 @@ class SCSynthBuilder {
     const context = synthInstance.context;
     const consts = synthdef.consts.map(x => new Float32Array([ x ]));
     const params = new Float32Array(synthdef.paramValues);
-    const bufferLength = synthdef.specs.reduce((sum, spec) => {
-      return sum + spec[4].reduce((sum, rate) => {
+    const bufferLength = synthdef.units.reduce((sum, unitSpec) => {
+      return sum + unitSpec[4].reduce((sum, rate) => {
         return sum + $rate(context, rate).bufferLength;
       }, 0);
     }, 0);
@@ -26,14 +26,15 @@ class SCSynthBuilder {
     synthInstance.unitList = unitList;
     synthInstance.dspUnitList = dspUnitList;
 
-    const specs = synthdef.specs;
+    const unitSpecs = synthdef.units;
+
     let bufferOffset = 0;
 
-    for (let i = 0, imax = specs.length; i < imax; i++) {
-      const spec = specs[i];
-      const inputSpecs = spec[3];
-      const outputSpecs = spec[4];
-      const unit = SCUnitRepository.createSCUnit(synthInstance, spec);
+    for (let i = 0, imax = unitSpecs.length; i < imax; i++) {
+      const unitSpec = unitSpecs[i];
+      const inputSpecs = unitSpec[3];
+      const outputSpecs = unitSpec[4];
+      const unit = SCUnitRepository.createSCUnit(synthInstance, unitSpec);
 
       for (let j = 0, jmax = unit.inputs.length; j < jmax; j++) {
         const inputSpec = inputSpecs[j];
