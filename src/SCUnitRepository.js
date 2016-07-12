@@ -1,24 +1,24 @@
 "use strict";
 
-const db = new Map();
+const db = {};
 
 class SCUnitRepository {
   static createSCUnit(synth, unitSpec) {
     const name = unitSpec[0];
 
-    if (!db.has(name)) {
-      throw new TypeError(`SCUnit not defined: ${ name }`);
+    if (!db.hasOwnProperty(name)) {
+      throw new TypeError(`SCUnit is not defined: ${ name }`);
     }
 
-    return new (db.get(name))(synth, unitSpec);
+    return new (db[name])(synth, unitSpec);
   }
 
   static registerSCUnitClass(name, SCUnitClass) {
-    return db.set(name, SCUnitClass);
+    db[name] = SCUnitClass;
   }
 
   static unregisterSCUnitClass(name) {
-    return db.delete(name);
+    delete db[name];
   }
 }
 
