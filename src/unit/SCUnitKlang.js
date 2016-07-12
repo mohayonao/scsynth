@@ -5,7 +5,7 @@ const fill = require("../util/fill");
 const dspProcess = {};
 class SCUnitKlang extends SCUnit {
   initialize(rate) {
-    const numpartials = (this.numInputs - 2) / 3;
+    const numpartials = (this.inputs.length - 2) / 3;
     const numcoefs = numpartials * 3;
     const coefs = new Float32Array(numcoefs);
     const inputs = this.inputs;

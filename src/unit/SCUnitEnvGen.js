@@ -69,7 +69,7 @@ dspProcess["next_ak"] = function (inNumSamples) {
     counter = Math.max(1, dur * this.rate.sampleRate | 0) + counterOffset;
     this._stage = numstages;
     this._shape = shape_Linear;
-    this._endLevel = this.inputs[this.numInputs - 4][0] * this.inputs[kEnvGen_levelScale][0] + this.inputs[kEnvGen_levelBias][0];
+    this._endLevel = this.inputs[this.inputs.length - 4][0] * this.inputs[kEnvGen_levelScale][0] + this.inputs[kEnvGen_levelBias][0];
     this._grow = (this._endLevel - level) / counter;
     this._released = true;
   } else if (prevGate > 0 && gate <= 0 && this._releaseNode >= 0 && !this._released) {
@@ -107,7 +107,7 @@ dspProcess["next_ak"] = function (inNumSamples) {
     }
     if (initSegment) {
       stageOffset = (this._stage << 2) + kEnvGen_nodeOffset;
-      if (stageOffset + 4 > this.numInputs) {
+      if (stageOffset + 4 > this.inputs.length) {
         return;
       }
       envPtr = this.inputs;
@@ -279,7 +279,7 @@ dspProcess["next_k"] = function () {
     counter = Math.max(1, dur * this.rate.sampleRate | 0) + counterOffset;
     this._stage = numstages;
     this._shape = shape_Linear;
-    this._endLevel = this.inputs[this.numInputs - 4][0] * this.inputs[kEnvGen_levelScale][0] + this.inputs[kEnvGen_levelBias][0];
+    this._endLevel = this.inputs[this.inputs.length - 4][0] * this.inputs[kEnvGen_levelScale][0] + this.inputs[kEnvGen_levelBias][0];
     this._grow = (this._endLevel - level) / counter;
     this._released = true;
   } else if (prevGate > 0 && gate <= 0 && this._releaseNode >= 0 && !this._released) {
@@ -315,7 +315,7 @@ dspProcess["next_k"] = function () {
   }
   if (initSegment) {
     stageOffset = (this._stage << 2) + kEnvGen_nodeOffset;
-    if (stageOffset + 4 > this.numInputs) {
+    if (stageOffset + 4 > this.inputs.length) {
       return;
     }
     envPtr = this.inputs;

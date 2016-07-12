@@ -6,7 +6,7 @@ const dspProcess = {};
 const log001 = Math.log(0.001);
 class SCUnitKlank extends SCUnit {
   initialize(rate) {
-    const numpartials = (this.numInputs - 4) / 3;
+    const numpartials = (this.inputs.length - 4) / 3;
     const numcoefs = (numpartials + 3 & ~3) * 5;
     const coefs = new Float32Array(numcoefs + this.bufferLength);
     const buf = new Float32Array(coefs.buffer, numcoefs * 4);
