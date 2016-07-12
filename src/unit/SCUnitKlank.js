@@ -1,6 +1,7 @@
 "use strict";
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
+const fill = require("../util/fill");
 const dspProcess = {};
 const log001 = Math.log(0.001);
 class SCUnitKlank extends SCUnit {
@@ -328,7 +329,7 @@ dspProcess["next0"] = function (inNumSamples) {
   let y0_2, y1_2, y2_2, a0_2, b1_2, b2_2;
   let y0_3, y1_3, y2_3, a0_3, b1_3, b2_3;
   let k = this._n * 20;
-  buf.fill(0);
+  fill(buf, 0);
   for (let n = 0, nmax = this._n; n < nmax; n++) {
     y1_0 = coefs[k + 0];
     y2_0 = coefs[k + 4];

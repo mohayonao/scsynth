@@ -2,6 +2,7 @@
 const C = require("../Constants");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
+const fillRange = require("../util/fillRange");
 const dspProcess = {};
 class SCUnitGate extends SCUnit {
   initialize() {
@@ -36,7 +37,7 @@ dspProcess["next_ak"] = function (inNumSamples) {
     out.set(inIn.subarray(0, inNumSamples));
     this._level = inIn[inNumSamples - 1];
   } else {
-    out.fill(this._level, 0, inNumSamples);
+    fillRange(out, this._level, 0, inNumSamples);
   }
 };
 SCUnitRepository.registerSCUnitClass("Gate", SCUnitGate);

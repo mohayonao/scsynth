@@ -21,6 +21,54 @@ test("clamp", () => {
   assert(clamp(6, 2, 4) === 4);
 });
 
+test("fill", () => {
+  const fill = require("../src/util/fill");
+  const list = new Float32Array(8);
+  const actual = fill(list, 1);
+  const expected = new Float32Array([ 1, 1, 1, 1, 1, 1, 1, 1 ]);
+
+  assert(util.fill === fill);
+  assert.deepEqual(actual, expected);
+  assert.deepEqual(list, expected);
+});
+
+test("fill/polyfill", () => {
+  const fill = require("../src/util/fill");
+  const list = new Float32Array(8);
+  // kill native function
+  Object.defineProperty(list, "fill", { value: null });
+  const actual = fill(list, 1);
+  const expected = new Float32Array([ 1, 1, 1, 1, 1, 1, 1, 1 ]);
+
+  assert(util.fill === fill);
+  assert.deepEqual(actual, expected);
+  assert.deepEqual(list, expected);
+});
+
+test("fillRange", () => {
+  const fillRange = require("../src/util/fillRange");
+  const list = new Float32Array(8);
+  const actual = fillRange(list, 1, 2, 6);
+  const expected = new Float32Array([ 0, 0, 1, 1, 1, 1, 0, 0 ]);
+
+  assert(util.fillRange === fillRange);
+  assert.deepEqual(actual, expected);
+  assert.deepEqual(list, expected);
+});
+
+test("fillRange/polyfill", () => {
+  const fillRange = require("../src/util/fillRange");
+  const list = new Float32Array(8);
+  // kill native function
+  Object.defineProperty(list, "fill", { value: null });
+  const actual = fillRange(list, 1, 2, 6);
+  const expected = new Float32Array([ 0, 0, 1, 1, 1, 1, 0, 0 ]);
+
+  assert(util.fillRange === fillRange);
+  assert.deepEqual(actual, expected);
+  assert.deepEqual(list, expected);
+});
+
 test("sc_cubicinterp", () => {
   const sc_cubicinterp = require("../src/util/sc_cubicinterp");
 

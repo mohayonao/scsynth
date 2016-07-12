@@ -1,6 +1,8 @@
 "use strict";
 
 module.exports.clamp = require("./clamp");
+module.exports.fill = require("./fill");
+module.exports.fillRange = require("./fillRange");
 module.exports.sc_cubicinterp = require("./sc_cubicinterp");
 module.exports.sc_fold = require("./sc_fold");
 module.exports.sc_wrap = require("./sc_wrap");
