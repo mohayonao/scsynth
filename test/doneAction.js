@@ -1,8 +1,8 @@
 "use strict";
 
 const assert = require("assert");
+const test = require("eatest");
 const sinon = require("sinon");
-const test = require("eater/runner").test;
 const SCGraphNode = require("../src/SCGraphNode");
 
 function createNode(index, mem) {

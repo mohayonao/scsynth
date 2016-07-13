@@ -1,7 +1,7 @@
 "use strict";
 
 const assert = require("assert");
-const test = require("eater/runner").test;
+const test = require("eatest");
 const scsynth = require("../src");
 
 const synthdef = {

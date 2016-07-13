@@ -1,7 +1,7 @@
 "use strict";
 
-const test = require("eater/runner").test;
 const assert = require("assert");
+const test = require("eatest");
 const scsynth = require("../../src");
 
 const context = new scsynth.SCContext({ blockSize: 8 });
