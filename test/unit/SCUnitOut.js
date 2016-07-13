@@ -1,12 +1,14 @@
 "use strict";
 
-const test = require("eater/runner").test;
 const assert = require("assert");
+const test = require("eatest");
+const nmap = require("nmap");
 const scsynth = require("../../src");
 
-const context = new scsynth.SCContext({ blockSize: 8 });
-
 test("a", () => {
+  const context = new scsynth.SCContext({ blockSize: 8 });
+  const noise0 = new Float32Array(nmap(8, Math.random));
+  const noise1 = new Float32Array(nmap(8, Math.random));
   const synthdef = {
     name: "OutTest",
     consts: [ 0 ],
@@ -19,8 +21,6 @@ test("a", () => {
     ]
   };
   const synth = context.createSynth(synthdef);
-  const noise0 = Float32Array.from({ length: 8 }, () => Math.random());
-  const noise1 = Float32Array.from({ length: 8 }, () => Math.random());
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[1].outputs[0].set(noise1);
@@ -32,11 +32,12 @@ test("a", () => {
   assert.deepEqual(context.audioBuses[1], noise1);
   assert.deepEqual(context.outputs[0], noise0);
   assert.deepEqual(context.outputs[1], noise1);
-
-  synth.close();
 });
 
 test("k", () => {
+  const context = new scsynth.SCContext({ blockSize: 8 });
+  const noise0 = new Float32Array(nmap(8, Math.random));
+  const noise1 = new Float32Array(nmap(1, Math.random));
   const synthdef = {
     name: "OutTest",
     consts: [ 0 ],
@@ -49,8 +50,6 @@ test("k", () => {
     ]
   };
   const synth = context.createSynth(synthdef);
-  const noise0 = Float32Array.from({ length: 8 }, () => Math.random());
-  const noise1 = Float32Array.from({ length: 1 }, () => Math.random());
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[1].outputs[0].set(noise1);
@@ -62,6 +61,4 @@ test("k", () => {
   assert.deepEqual(context.controlBuses[1], [ noise1[0] ]);
   assert.deepEqual(context.outputs[0], [ 0, 0, 0, 0, 0, 0, 0, 0 ]);
   assert.deepEqual(context.outputs[1], [ 0, 0, 0, 0, 0, 0, 0, 0 ]);
-
-  synth.close();
 });
