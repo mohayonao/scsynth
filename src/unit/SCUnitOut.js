@@ -1,5 +1,6 @@
 "use strict";
 
+const assert = require("assert");
 const C = require("../Constants");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
@@ -8,9 +9,11 @@ const dspProcess = {};
 class SCUnitOut extends SCUnit {
   initialize() {
     if (this.calcRate === C.RATE_AUDIO) {
-      // assert(
-      //   this.inputSpecs.slice(1).every(spec => spec.rate === C.RATE_AUDIO)
-      // );
+      assert(
+        this.inputSpecs.slice(1).every(
+          (spec) => spec.rate === C.RATE_AUDIO
+        )
+      );
       this.dspProcess = dspProcess["a"];
       this._buses = this.context.audioBuses;
     } else {

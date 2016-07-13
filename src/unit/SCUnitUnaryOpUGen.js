@@ -1,4 +1,5 @@
 "use strict";
+
 const C = require("../Constants");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
@@ -7,42 +8,58 @@ const $i2n = `
 neg not isNil notNil bitNot abs asFloat asInt ceil floor frac sign squared cubed sqrt exp reciprocal
 midicps cpsmidi midiratio ratiomidi dbamp ampdb octcps cpsoct log log2 log10 sin cos tan asin acos
 atan sinh cosh tanh rand rand2 linrand bilinrand sum3rand distort softclip coin digitvalue silence
-thru rectWindow hanWindow welWindow triWindow ramp scurve numunaryselectors num tilde pi to_i half
-twice`.trim().split(/\s/);
-const $r2k = [
-  "i",
-  "k",
-  "a"
-];
+thru rectWindow hanWindow welWindow triWindow ramp scurve
+numunaryselectors`.trim().split(/\s/);
 const dspProcess = {};
+
 class SCUnitUnaryOpUGen extends SCUnit {
   initialize() {
     const dspFunc = dspProcess[$i2n[this.specialIndex]];
+
     if (!dspFunc) {
       throw new Error(`UnaryOpUGen[${ $i2n[this.specialIndex] }] is not defined.`);
     }
+
     if (this.calcRate === C.RATE_DEMAND) {
       this.dspProcess = dspFunc["d"];
     } else {
-      this.dspProcess = dspFunc[$r2k[this.inputSpecs[0].rate]] || null;
+      this.dspProcess = dspFunc[$r2k(this)];
+
       this._a = this.inputs[0][0];
-      if (this.dspProcess) {
-        this.dspProcess(1);
-      } else {
-        this.outputs[0][0] = dspFunc(this._a);
-      }
+
+      this.outputs[0][0] = dspFunc(this._a);
     }
   }
 }
+
+function $r2k(unit) {
+  if (unit.calcRate === C.RATE_AUDIO) {
+    return "a";
+  }
+  return unit.calcRate === C.RATE_SCALAR ? "i" : "k";
+}
+
 dspProcess["neg"] = function (a) {
   return -a;
 };
 dspProcess["not"] = function (a) {
   return a === 0 ? 1 : 0;
 };
+// dspProcess["isNil"] = function (a) {
+//   return 0;
+// };
+// dspProcess["notNil"] = function (a) {
+//   return 0;
+// };
 dspProcess["abs"] = function (a) {
   return Math.abs(a);
 };
+// dspProcess["asFloat"] = function (a) {
+//   return 0;
+// };
+// dspProcess["asInt"] = function (a) {
+//   return 0;
+// };
 dspProcess["ceil"] = function (a) {
   return Math.ceil(a);
 };
@@ -158,53 +175,71 @@ dspProcess["softclip"] = function (a) {
 dspProcess["coin"] = function (a) {
   return Math.random() < a ? 1 : 0;
 };
-dspProcess["num"] = function (a) {
-  return +a;
-};
-dspProcess["tilde"] = function (a) {
-  return ~a;
-};
-dspProcess["pi"] = function (a) {
-  return Math.PI * a;
-};
-dspProcess["to_i"] = function (a) {
-  return a | 0;
-};
-dspProcess["half"] = function (a) {
-  return a * 0.5;
-};
-dspProcess["twice"] = function (a) {
-  return a * 2;
-};
+// dspProcess["digitvalue"] = function (a) {
+//   return 0;
+// };
+// dspProcess["silence"] = function (a) {
+//   return 0;
+// };
+// dspProcess["thru"] = function (a) {
+//   return 0;
+// };
+// dspProcess["rectWindow"] = function (a) {
+//   return 0;
+// };
+// dspProcess["hanWindow"] = function (a) {
+//   return 0;
+// };
+// dspProcess["welWindow"] = function (a) {
+//   return 0;
+// };
+// dspProcess["triWindow"] = function (a) {
+//   return 0;
+// };
+// dspProcess["ramp"] = function (a) {
+//   return 0;
+// };
+// dspProcess["scurve"] = function (a) {
+//   return 0;
+// };
+
 function unary_k(func) {
   return function () {
     this.outputs[0][0] = func(this.inputs[0][0]);
   };
 }
+
 function unary_a(func) {
   return function (inNumSamples) {
     const out = this.outputs[0];
     const aIn = this.inputs[0];
+
     for (let i = 0; i < inNumSamples; i++) {
       out[i] = func(aIn[i]);
     }
   };
 }
+
 function unary_d(func) {
   return function (inNumSamples) {
     if (inNumSamples) {
       const a = demand.next(this, 0, inNumSamples);
+
       this.outputs[0][0] = isNaN(a) ? NaN : func(a);
     } else {
       demand.reset(this, 0);
     }
   };
 }
+
 Object.keys(dspProcess).forEach(key => {
   const func = dspProcess[key];
+
   func["a"] = func["a"] || unary_a(func);
   func["k"] = func["k"] || unary_k(func);
   func["d"] = unary_d(func);
 });
+
 SCUnitRepository.registerSCUnitClass("UnaryOpUGen", SCUnitUnaryOpUGen);
+
 module.exports = SCUnitUnaryOpUGen;
