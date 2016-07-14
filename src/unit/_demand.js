@@ -2,16 +2,22 @@
 
 const C = require("../Constants");
 
-function next(unit, index, offset) {
+function isDemand(unit, index) {
+  const fromUnit = unit.inputSpecs[index].unit;
+
+  return fromUnit && fromUnit.calcRate === C.RATE_DEMAND;
+}
+
+function next(unit, index, inNumSamples) {
   const fromUnit = unit.inputSpecs[index].unit;
 
   if (fromUnit) {
     switch (fromUnit.calcRate) {
     case C.RATE_AUDIO:
-      return unit.inputs[index][offset - 1];
+      return unit.inputs[index][inNumSamples - 1];
     case C.RATE_DEMAND:
-      fromUnit.process(offset);
-      break;
+      fromUnit.dspProcess(inNumSamples);
+      /* fall through */
     }
   }
 
@@ -22,8 +28,8 @@ function reset(unit, index) {
   const fromUnit = unit.inputSpecs[index].unit;
 
   if (fromUnit && fromUnit.calcRate === C.RATE_DEMAND) {
-    fromUnit.process(0);
+    fromUnit.dspProcess(0);
   }
 }
 
-module.exports = { next, reset };
+module.exports = { isDemand, next, reset };

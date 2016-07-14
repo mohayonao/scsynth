@@ -7,7 +7,9 @@
     "url": "https://github.com/mohayonao/scsynth/issues"
   },
   "dependencies": {
-    "nmap": "^0.9.0"
+    "nmap": "^0.9.0",
+    "sc-random": "^1.0.0",
+    "shuffle-array": "^1.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
