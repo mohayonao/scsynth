@@ -35,13 +35,12 @@ test("aaak", () => {
     synth.unitList[1].outputs[0].set(noise1); // right
     synth.unitList[2].outputs[0].fill(-1); // pos
     synth.unitList[3].outputs[0].fill(1);  // level
-
     context.process();
 
-    const expectedL = x => !Number.isNaN(x);
-    const expectedR = x => !Number.isNaN(x);
+    const expectedL = Number.isFinite;
+    const expectedR = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
     // }
 
@@ -52,9 +51,9 @@ test("aaak", () => {
     context.process();
 
     const expectedL = noise0;
-    const expectedR = new Float32Array(context.blockSize);
+    const expectedR = new Float32Array(64);
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
     // }
 
@@ -64,13 +63,12 @@ test("aaak", () => {
   {
     synth.unitList[2].outputs[0].fill(+1); // pos
     synth.unitList[3].outputs[0].fill(1);  // level
-
     context.process();
 
-    const expectedL = x => !Number.isNaN(x);
-    const expectedR = x => !Number.isNaN(x);
+    const expectedL = Number.isFinite;
+    const expectedR = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
     // }
 
@@ -80,10 +78,10 @@ test("aaak", () => {
   {
     context.process();
 
-    const expectedL = new Float32Array(context.blockSize);
+    const expectedL = new Float32Array(64);
     const expectedR = noise1;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
     // }
 
@@ -93,13 +91,12 @@ test("aaak", () => {
   {
     synth.unitList[2].outputs[0].fill(0);    // pos
     synth.unitList[3].outputs[0].fill(0.25); // level
-
     context.process();
 
-    const expectedL = x => !Number.isNaN(x);
-    const expectedR = x => !Number.isNaN(x);
+    const expectedL = Number.isFinite;
+    const expectedR = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
     // }
 
@@ -138,13 +135,12 @@ test("aakk", () => {
     synth.unitList[1].outputs[0].set(noise1); // right
     synth.unitList[2].outputs[0].fill(-1); // pos
     synth.unitList[3].outputs[0].fill(1);  // level
-
     context.process();
 
-    const expectedL = x => !Number.isNaN(x);
-    const expectedR = x => !Number.isNaN(x);
+    const expectedL = Number.isFinite;
+    const expectedR = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
     // }
 
@@ -155,9 +151,9 @@ test("aakk", () => {
     context.process();
 
     const expectedL = noise0;
-    const expectedR = new Float32Array(context.blockSize);
+    const expectedR = new Float32Array(64);
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
     // }
 
@@ -167,13 +163,12 @@ test("aakk", () => {
   {
     synth.unitList[2].outputs[0].fill(+1); // pos
     synth.unitList[3].outputs[0].fill(1);  // level
-
     context.process();
 
-    const expectedL = x => !Number.isNaN(x);
-    const expectedR = x => !Number.isNaN(x);
+    const expectedL = Number.isFinite;
+    const expectedR = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
     // }
 
@@ -183,10 +178,10 @@ test("aakk", () => {
   {
     context.process();
 
-    const expectedL = new Float32Array(context.blockSize);
+    const expectedL = new Float32Array(64);
     const expectedR = noise1;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
     // }
 
@@ -196,13 +191,12 @@ test("aakk", () => {
   {
     synth.unitList[2].outputs[0].fill(0);    // pos
     synth.unitList[3].outputs[0].fill(0.25); // level
-
     context.process();
 
-    const expectedL = x => !Number.isNaN(x);
-    const expectedR = x => !Number.isNaN(x);
+    const expectedL = Number.isFinite;
+    const expectedR = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
     // }
 

@@ -36,7 +36,6 @@ test("a", () => {
     synth1.unitList[1].outputs[0].set(noise1);
     synth2.unitList[0].outputs[0].set(noise2);
     synth2.unitList[1].outputs[0].set(noise3);
-
     context.process();
 
     const expectedL = noise2;
@@ -82,7 +81,6 @@ test("k", () => {
     synth1.unitList[1].outputs[0].set(noise1);
     synth2.unitList[0].outputs[0].set(noise2);
     synth2.unitList[1].outputs[0].set(noise3);
-
     context.process();
 
     const expectedL = new Float32Array([ noise2[0] ]);

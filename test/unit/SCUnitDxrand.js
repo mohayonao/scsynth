@@ -26,22 +26,29 @@ test.fork("d", () => {
 
   context.addToTail(synth);
 
+  const actual = context.audioBuses[0];
+
   {
     synth.unitList[0].outputs[0].set([ 1, 0, 1, 0, 1, 0, 1, 0 ]);
     context.process();
 
     const expected = new Float32Array([ 3, 3, 1, 1, 2, 2, 1, 1 ]);
-    const actual = context.audioBuses[0];
+
+    // for (let i = 0; i < 8; i++) {
+    //   console.log(actual[i]);
+    // }
 
     assert.deepEqual(actual, expected);
   }
-
   {
     synth.unitList[0].outputs[0].set([ 1, 0, 1, 0, 1, 0, 1, 0 ]);
     context.process();
 
     const expected = new Float32Array([ 3, 3, 1, 1, 1, 1, 1, 1 ]);
-    const actual = context.audioBuses[0];
+
+    // for (let i = 0; i < 8; i++) {
+    //   console.log(actual[i]);
+    // }
 
     assert.deepEqual(actual, expected);
   }
@@ -68,22 +75,29 @@ test.fork("child", () => {
 
   context.addToTail(synth);
 
+  const actual = context.audioBuses[0];
+
   {
     synth.unitList[0].outputs[0].set([ 1, 0, 1, 0, 1, 0, 1, 0 ]);
     context.process();
 
     const expected = new Float32Array([ 3, 3, 2, 2, 3, 3, 2, 2 ]);
-    const actual = context.audioBuses[0];
+
+    // for (let i = 0; i < 8; i++) {
+    //   console.log(actual[i]);
+    // }
 
     assert.deepEqual(actual, expected);
   }
-
   {
     synth.unitList[0].outputs[0].set([ 1, 0, 1, 0, 1, 0, 1, 0 ]);
     context.process();
 
     const expected = new Float32Array([ 3, 3, 2, 2, 3, 3, 2, 2 ]);
-    const actual = context.audioBuses[0];
+
+    // for (let i = 0; i < 8; i++) {
+    //   console.log(actual[i]);
+    // }
 
     assert.deepEqual(actual, expected);
   }

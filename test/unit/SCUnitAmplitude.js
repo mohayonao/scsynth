@@ -29,12 +29,11 @@ test("akk", () => {
 
   {
     synth.unitList[0].outputs[0].set(noise0); // in
-
     context.process();
 
-    const expected = x => !Number.isNaN(x);
+    const expected = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
     // }
 
@@ -44,12 +43,11 @@ test("akk", () => {
   {
     synth.unitList[1].outputs[0].fill(0.5); // attackTime
     synth.unitList[2].outputs[0].fill(0.5); // releaseTime
-
     context.process();
 
-    const expected = x => !Number.isNaN(x);
+    const expected = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
     // }
 
@@ -82,12 +80,11 @@ test("akk/atok", () => {
 
   {
     synth.unitList[0].outputs[0].set(noise0); // in
-
     context.process();
 
-    const expected = x => !Number.isNaN(x);
+    const expected = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 1; i++) {
     //   console.log(actual[i]);
     // }
 
@@ -97,12 +94,11 @@ test("akk/atok", () => {
   {
     synth.unitList[1].outputs[0].fill(0.5); // attackTime
     synth.unitList[2].outputs[0].fill(0.5); // releaseTime
-
     context.process();
 
-    const expected = x => !Number.isNaN(x);
+    const expected = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 1; i++) {
     //   console.log(actual[i]);
     // }
 

@@ -37,7 +37,6 @@ test("a", () => {
     synth1.unitList[1].outputs[0].set(noise1);
     synth2.unitList[0].outputs[0].set(noise2);
     synth2.unitList[1].outputs[0].set(noise3);
-
     context.process();
 
     const expectedL = new Float32Array(nmap(64, (_, i) => noise0[i] * 0.25 + noise2[i] * 0.5));
@@ -52,7 +51,6 @@ test("a", () => {
   }
   {
     synth1.unitList[2].outputs[0].set([ 0 ]);
-
     context.process();
 
     const expectedL = Number.isFinite;
@@ -81,7 +79,6 @@ test("a", () => {
   {
     synth1.unitList[2].outputs[0].set([ 1 ]);
     synth2.unitList[2].outputs[0].set([ 0 ]);
-
     context.process();
     context.process();
 
@@ -129,7 +126,6 @@ test("k", () => {
     synth1.unitList[1].outputs[0].set(noise1);
     synth2.unitList[0].outputs[0].set(noise2);
     synth2.unitList[1].outputs[0].set(noise3);
-
     context.process();
 
     const expectedL = new Float32Array([ noise0[0] * 0.25 + noise2[0] * 0.5 ]);

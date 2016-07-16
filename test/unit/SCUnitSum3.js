@@ -6,10 +6,10 @@ const nmap = require("nmap");
 const scsynth = require("../../src");
 
 test("aaa", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
-  const noise0 = new Float32Array(nmap(8, Math.random));
-  const noise1 = new Float32Array(nmap(8, Math.random));
-  const noise2 = new Float32Array(nmap(8, Math.random));
+  const context = new scsynth.SCContext({ blockSize: 64 });
+  const noise0 = new Float32Array(nmap(64, Math.random));
+  const noise1 = new Float32Array(nmap(64, Math.random));
+  const noise2 = new Float32Array(nmap(64, Math.random));
   const synthdef = {
     name: "Sum3Test",
     consts: [ 0 ],
@@ -25,24 +25,31 @@ test("aaa", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-  synth.unitList[1].outputs[0].set(noise1);
-  synth.unitList[2].outputs[0].set(noise2);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = (_, i) => noise0[i] + noise1[i] + noise2[i];
-  const expected = new Float32Array(nmap(8, calc));
   const actual = context.audioBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    synth.unitList[1].outputs[0].set(noise1);
+    synth.unitList[2].outputs[0].set(noise2);
+    context.process();
+
+    const calc = (_, i) => noise0[i] + noise1[i] + noise2[i];
+    const expected = new Float32Array(nmap(64, calc));
+
+    // for (let i = 0; i < 64; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("aak", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
-  const noise0 = new Float32Array(nmap(8, Math.random));
-  const noise1 = new Float32Array(nmap(8, Math.random));
+  const context = new scsynth.SCContext({ blockSize: 64 });
+  const noise0 = new Float32Array(nmap(64, Math.random));
+  const noise1 = new Float32Array(nmap(64, Math.random));
   const noise2 = new Float32Array(nmap(1, Math.random));
   const synthdef = {
     name: "Sum3Test",
@@ -59,24 +66,31 @@ test("aak", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-  synth.unitList[1].outputs[0].set(noise1);
-  synth.unitList[2].outputs[0].set(noise2);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = (_, i) => noise0[i] + noise1[i] + (noise2[0] * (i / 8));
-  const expected = new Float32Array(nmap(8, calc));
   const actual = context.audioBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    synth.unitList[1].outputs[0].set(noise1);
+    synth.unitList[2].outputs[0].set(noise2);
+    context.process();
+
+    const calc = (_, i) => noise0[i] + noise1[i] + (noise2[0] * (i / 64));
+    const expected = new Float32Array(nmap(64, calc));
+
+    // for (let i = 0; i < 64; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("aai", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
-  const noise0 = new Float32Array(nmap(8, Math.random));
-  const noise1 = new Float32Array(nmap(8, Math.random));
+  const context = new scsynth.SCContext({ blockSize: 64 });
+  const noise0 = new Float32Array(nmap(64, Math.random));
+  const noise1 = new Float32Array(nmap(64, Math.random));
   const noise2 = Math.fround(Math.random());
   const synthdef = {
     name: "Sum3Test",
@@ -93,22 +107,29 @@ test("aai", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-  synth.unitList[1].outputs[0].set(noise1);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = (_, i) => noise0[i] + noise1[i] + noise2;
-  const expected = new Float32Array(nmap(8, calc));
   const actual = context.audioBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    synth.unitList[1].outputs[0].set(noise1);
+    context.process();
+
+    const calc = (_, i) => noise0[i] + noise1[i] + noise2;
+    const expected = new Float32Array(nmap(64, calc));
+
+    // for (let i = 0; i < 64; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("akk", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
-  const noise0 = new Float32Array(nmap(8, Math.random));
+  const context = new scsynth.SCContext({ blockSize: 64 });
+  const noise0 = new Float32Array(nmap(64, Math.random));
   const noise1 = new Float32Array(nmap(1, Math.random));
   const noise2 = new Float32Array(nmap(1, Math.random));
   const synthdef = {
@@ -126,23 +147,30 @@ test("akk", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-  synth.unitList[1].outputs[0].set(noise1);
-  synth.unitList[2].outputs[0].set(noise2);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = (_, i) => noise0[i] + ((noise1[0] + noise2[0]) * (i / 8));
-  const expected = new Float32Array(nmap(8, calc));
   const actual = context.audioBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    synth.unitList[1].outputs[0].set(noise1);
+    synth.unitList[2].outputs[0].set(noise2);
+    context.process();
+
+    const calc = (_, i) => noise0[i] + ((noise1[0] + noise2[0]) * (i / 64));
+    const expected = new Float32Array(nmap(64, calc));
+
+    // for (let i = 0; i < 64; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("aki", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
-  const noise0 = new Float32Array(nmap(8, Math.random));
+  const context = new scsynth.SCContext({ blockSize: 64 });
+  const noise0 = new Float32Array(nmap(64, Math.random));
   const noise1 = new Float32Array(nmap(1, Math.random));
   const noise2 = Math.fround(Math.random());
   const synthdef = {
@@ -160,22 +188,29 @@ test("aki", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-  synth.unitList[1].outputs[0].set(noise1);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = (_, i) => noise0[i] + (noise1[0] * (i / 8)) + noise2;
-  const expected = new Float32Array(nmap(8, calc));
   const actual = context.audioBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    synth.unitList[1].outputs[0].set(noise1);
+    context.process();
+
+    const calc = (_, i) => noise0[i] + (noise1[0] * (i / 64)) + noise2;
+    const expected = new Float32Array(nmap(64, calc));
+
+    // for (let i = 0; i < 64; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("aii", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
-  const noise0 = new Float32Array(nmap(8, Math.random));
+  const context = new scsynth.SCContext({ blockSize: 64 });
+  const noise0 = new Float32Array(nmap(64, Math.random));
   const noise1 = Math.fround(Math.random());
   const noise2 = Math.fround(Math.random());
   const synthdef = {
@@ -193,20 +228,27 @@ test("aii", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = (_, i) => noise0[i] + noise1 + noise2;
-  const expected = new Float32Array(nmap(8, calc));
   const actual = context.audioBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    context.process();
+
+    const calc = (_, i) => noise0[i] + noise1 + noise2;
+    const expected = new Float32Array(nmap(64, calc));
+
+    // for (let i = 0; i < 64; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("kkk", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
+  const context = new scsynth.SCContext({ blockSize: 64 });
   const noise0 = new Float32Array(nmap(1, Math.random));
   const noise1 = new Float32Array(nmap(1, Math.random));
   const noise2 = new Float32Array(nmap(1, Math.random));
@@ -225,22 +267,29 @@ test("kkk", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-  synth.unitList[1].outputs[0].set(noise1);
-  synth.unitList[2].outputs[0].set(noise2);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = () => noise0[0] + noise1[0] + noise2[0];
-  const expected = new Float32Array(nmap(1, calc));
   const actual = context.controlBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    synth.unitList[1].outputs[0].set(noise1);
+    synth.unitList[2].outputs[0].set(noise2);
+    context.process();
+
+    const calc = () => noise0[0] + noise1[0] + noise2[0];
+    const expected = new Float32Array(nmap(1, calc));
+
+    // for (let i = 0; i < 1; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("kki", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
+  const context = new scsynth.SCContext({ blockSize: 64 });
   const noise0 = new Float32Array(nmap(1, Math.random));
   const noise1 = new Float32Array(nmap(1, Math.random));
   const noise2 = Math.fround(Math.random());
@@ -259,21 +308,28 @@ test("kki", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-  synth.unitList[1].outputs[0].set(noise1);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = () => noise0[0] + noise1[0] + noise2;
-  const expected = new Float32Array(nmap(1, calc));
   const actual = context.controlBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    synth.unitList[1].outputs[0].set(noise1);
+    context.process();
+
+    const calc = () => noise0[0] + noise1[0] + noise2;
+    const expected = new Float32Array(nmap(1, calc));
+
+    // for (let i = 0; i < 1; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("kii", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
+  const context = new scsynth.SCContext({ blockSize: 64 });
   const noise0 = new Float32Array(nmap(1, Math.random));
   const noise1 = Math.fround(Math.random());
   const noise2 = Math.fround(Math.random());
@@ -292,20 +348,27 @@ test("kii", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = () => noise0[0] + noise1 + noise2;
-  const expected = new Float32Array(nmap(1, calc));
   const actual = context.controlBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    context.process();
+
+    const calc = () => noise0[0] + noise1 + noise2;
+    const expected = new Float32Array(nmap(1, calc));
+
+    // for (let i = 0; i < 1; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("iii", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
+  const context = new scsynth.SCContext({ blockSize: 64 });
   const noise0 = Math.fround(Math.random());
   const noise1 = Math.fround(Math.random());
   const noise2 = Math.fround(Math.random());
@@ -325,11 +388,19 @@ test("iii", () => {
   const synth = context.createSynth(synthdef);
 
   context.addToTail(synth);
-  context.process();
 
-  const calc = () => noise0 + noise1 + noise2;
-  const expected = new Float32Array(nmap(1, calc));
   const actual = context.controlBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    context.process();
+
+    const calc = () => noise0 + noise1 + noise2;
+    const expected = new Float32Array(nmap(1, calc));
+
+    // for (let i = 0; i < 1; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
