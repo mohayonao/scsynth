@@ -5,6 +5,8 @@ module.exports = {
   SCUnitAllpassC: require("./SCUnitAllpassC"),
   SCUnitAllpassL: require("./SCUnitAllpassL"),
   SCUnitAllpassN: require("./SCUnitAllpassN"),
+  SCUnitAmpComp: require("./SCUnitAmpComp"),
+  SCUnitAmpCompA: require("./SCUnitAmpCompA"),
   SCUnitAmplitude: require("./SCUnitAmplitude"),
   SCUnitAPF: require("./SCUnitAPF"),
   SCUnitBalance2: require("./SCUnitBalance2"),
