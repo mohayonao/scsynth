@@ -121,6 +121,7 @@ module.exports = {
   SCUnitNumControlBuses: require("./SCUnitNumControlBuses"),
   SCUnitNumInputBuses: require("./SCUnitNumInputBuses"),
   SCUnitNumOutputBuses: require("./SCUnitNumOutputBuses"),
+  SCUnitOffsetOut: require("./SCUnitOffsetOut"),
   SCUnitOnePole: require("./SCUnitOnePole"),
   SCUnitOneZero: require("./SCUnitOneZero"),
   SCUnitOut: require("./SCUnitOut"),
@@ -178,5 +179,6 @@ module.exports = {
   SCUnitWrap: require("./SCUnitWrap"),
   SCUnitXFade2: require("./SCUnitXFade2"),
   SCUnitXLine: require("./SCUnitXLine"),
+  SCUnitXOut: require("./SCUnitXOut"),
   SCUnitZeroCrossing: require("./SCUnitZeroCrossing")
 };

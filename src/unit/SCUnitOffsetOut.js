@@ -6,7 +6,10 @@ const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
 const dspProcess = {};
 
-class SCUnitReplaceOut extends SCUnit {
+// TODO: use the sample offset ??
+// Now, SCUnitOffsetOut == SCUnitOut
+
+class SCUnitOffsetOut extends SCUnit {
   initialize() {
     assert(2 <= this.inputs.length);
     if (this.calcRate === C.RATE_AUDIO) {
@@ -24,7 +27,7 @@ class SCUnitReplaceOut extends SCUnit {
   }
 }
 
-dspProcess["a"] = function() {
+dspProcess["a"] = function(inNumSamples) {
   const inputs = this.inputs;
   const buses = this._buses;
   const firstBusChannel = inputs[0][0]|0;
@@ -33,11 +36,13 @@ dspProcess["a"] = function() {
     const out = buses[firstBusChannel + ch];
     const inIn = inputs[ch + 1];
 
-    out.set(inIn);
+    for (let i = 0; i < inNumSamples; i++) {
+      out[i] += inIn[i];
+    }
   }
 };
 
-dspProcess["k"] = function () {
+dspProcess["k"] = function() {
   const inputs = this.inputs;
   const buses = this._buses;
   const firstBusChannel = inputs[0][0]|0;
@@ -46,10 +51,10 @@ dspProcess["k"] = function () {
     const out = buses[firstBusChannel + ch];
     const _in = inputs[ch + 1][0];
 
-    out[0] = _in;
+    out[0] += _in;
   }
 };
 
-SCUnitRepository.registerSCUnitClass("ReplaceOut", SCUnitReplaceOut);
+SCUnitRepository.registerSCUnitClass("OffsetOut", SCUnitOffsetOut);
 
-module.exports = SCUnitReplaceOut;
+module.exports = SCUnitOffsetOut;
