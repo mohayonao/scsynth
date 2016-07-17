@@ -12,14 +12,14 @@ test("a", () => {
   const noise2 = new Float32Array(nmap(64, Math.random));
   const noise3 = new Float32Array(nmap(64, Math.random));
   const synthdef = {
-    name: "OutTest",
+    name: "ReplaceOutTest",
     consts: [ 0 ],
     paramValues: {},
     paramIndices: {},
     units: [
-      [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
-      [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
-      [ "Out", 2, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
+      [ "DC"        , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
+      [ "DC"        , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
+      [ "ReplaceOut", 2, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
     ]
   };
   const synth1 = context.createSynth(synthdef);
@@ -38,8 +38,8 @@ test("a", () => {
     synth2.unitList[1].outputs[0].set(noise3);
     context.process();
 
-    const expectedL = new Float32Array(nmap(64, (_, i) => noise0[i] + noise2[i]));
-    const expectedR = new Float32Array(nmap(64, (_, i) => noise1[i] + noise3[i]));
+    const expectedL = noise2;
+    const expectedR = noise3;
 
     // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
@@ -57,14 +57,14 @@ test("k", () => {
   const noise2 = new Float32Array(nmap(64, Math.random));
   const noise3 = new Float32Array(nmap(1, Math.random));
   const synthdef = {
-    name: "OutTest",
+    name: "ReplaceOutTest",
     consts: [ 0 ],
     paramValues: {},
     paramIndices: {},
     units: [
-      [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
-      [ "DC" , 1, 0, [ [ -1, 0 ]                     ], [ 1 ] ],
-      [ "Out", 1, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
+      [ "DC"        , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
+      [ "DC"        , 1, 0, [ [ -1, 0 ]                     ], [ 1 ] ],
+      [ "ReplaceOut", 1, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
     ]
   };
   const synth1 = context.createSynth(synthdef);
@@ -83,8 +83,8 @@ test("k", () => {
     synth2.unitList[1].outputs[0].set(noise3);
     context.process();
 
-    const expectedL = new Float32Array([ noise0[0] + noise2[0] ]);
-    const expectedR = new Float32Array([ noise1[0] + noise3[0] ]);
+    const expectedL = new Float32Array([ noise2[0] ]);
+    const expectedR = new Float32Array([ noise3[0] ]);
 
     // for (let i = 0; i < 1; i++) {
     //   console.log(actualL[i], actualR[i]);

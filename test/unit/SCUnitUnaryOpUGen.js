@@ -6,8 +6,8 @@ const nmap = require("nmap");
 const scsynth = require("../../src");
 
 test("a", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
-  const noise0 = new Float32Array(nmap(8, Math.random));
+  const context = new scsynth.SCContext({ blockSize: 64 });
+  const noise0 = new Float32Array(nmap(64, Math.random));
   const synthdef = {
     name: "UnaryOpUGenTest",
     consts: [ 0 ],
@@ -21,20 +21,27 @@ test("a", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = (_, i) => -noise0[i];
-  const expected = new Float32Array(nmap(8, calc));
   const actual = context.audioBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    context.process();
+
+    const calc = (_, i) => -noise0[i];
+    const expected = new Float32Array(nmap(64, calc));
+
+    // for (let i = 0; i < 64; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("k", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
+  const context = new scsynth.SCContext({ blockSize: 64 });
   const noise0 = new Float32Array(nmap(1, Math.random));
   const synthdef = {
     name: "UnaryOpUGenTest",
@@ -49,20 +56,27 @@ test("k", () => {
   };
   const synth = context.createSynth(synthdef);
 
-  synth.unitList[0].outputs[0].set(noise0);
-
   context.addToTail(synth);
-  context.process();
 
-  const calc = () => -noise0[0];
-  const expected = new Float32Array(nmap(1, calc));
   const actual = context.controlBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    synth.unitList[0].outputs[0].set(noise0);
+    context.process();
+
+    const calc = () => -noise0[0];
+    const expected = new Float32Array(nmap(1, calc));
+
+    // for (let i = 0; i < 1; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });
 
 test("i", () => {
-  const context = new scsynth.SCContext({ blockSize: 8 });
+  const context = new scsynth.SCContext({ blockSize: 64 });
   const noise0 = Math.fround(Math.random());
   const synthdef = {
     name: "UnaryOpUGenTest",
@@ -78,11 +92,19 @@ test("i", () => {
   const synth = context.createSynth(synthdef);
 
   context.addToTail(synth);
-  context.process();
 
-  const calc = () => -noise0;
-  const expected = new Float32Array(nmap(1, calc));
   const actual = context.controlBuses[0];
 
-  assert.deepEqual(actual, expected);
+  {
+    context.process();
+
+    const calc = () => -noise0;
+    const expected = new Float32Array(nmap(1, calc));
+
+    // for (let i = 0; i < 1; i++) {
+    //   console.log(actual[i]);
+    // }
+
+    assert.deepEqual(actual, expected);
+  }
 });

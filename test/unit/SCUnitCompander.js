@@ -34,12 +34,11 @@ test("akk", () => {
 
   {
     synth.unitList[0].outputs[0].set(noise0); // in
-
     context.process();
 
-    const expected = x => !Number.isNaN(x);
+    const expected = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
     // }
 
@@ -53,12 +52,11 @@ test("akk", () => {
     synth.unitList[4].outputs[0].fill(0.5);   // slopeAbove
     synth.unitList[5].outputs[0].fill(0.02);  // clampTime
     synth.unitList[6].outputs[0].fill(0.2);   // relaxTime
-
     context.process();
 
-    const expected = x => !Number.isNaN(x);
+    const expected = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
     // }
 

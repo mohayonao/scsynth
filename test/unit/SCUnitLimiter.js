@@ -36,7 +36,7 @@ test("aki", () => {
 
     const expected = x => Math.abs(x) <= 0.51;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
     // }
 
@@ -52,7 +52,7 @@ test("aki", () => {
 
     const expected = x => Math.abs(x) <= 0.11;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
     // }
 

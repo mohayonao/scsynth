@@ -27,12 +27,11 @@ test("a", () => {
 
   {
     synth.unitList[0].outputs[0].set(noise0); // in
-
     context.process();
 
     const expected = new Float32Array([ noise0[0] ]);
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 1; i++) {
     //   console.log(actual[i]);
     // }
 

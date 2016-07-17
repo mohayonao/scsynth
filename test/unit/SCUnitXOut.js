@@ -12,14 +12,15 @@ test("a", () => {
   const noise2 = new Float32Array(nmap(64, Math.random));
   const noise3 = new Float32Array(nmap(64, Math.random));
   const synthdef = {
-    name: "OutTest",
-    consts: [ 0 ],
+    name: "XOutTest",
+    consts: [ 0, 0.5 ],
     paramValues: {},
     paramIndices: {},
     units: [
-      [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
-      [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
-      [ "Out", 2, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
+      [ "DC"  , 2, 0, [ [ -1, 0 ]                               ], [ 2 ] ],
+      [ "DC"  , 2, 0, [ [ -1, 0 ]                               ], [ 2 ] ],
+      [ "DC"  , 1, 0, [ [ -1, 1 ]                               ], [ 1 ] ],
+      [ "XOut", 2, 0, [ [ -1, 0 ], [ 2, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
     ]
   };
   const synth1 = context.createSynth(synthdef);
@@ -38,8 +39,51 @@ test("a", () => {
     synth2.unitList[1].outputs[0].set(noise3);
     context.process();
 
-    const expectedL = new Float32Array(nmap(64, (_, i) => noise0[i] + noise2[i]));
-    const expectedR = new Float32Array(nmap(64, (_, i) => noise1[i] + noise3[i]));
+    const expectedL = new Float32Array(nmap(64, (_, i) => noise0[i] * 0.25 + noise2[i] * 0.5));
+    const expectedR = new Float32Array(nmap(64, (_, i) => noise1[i] * 0.25 + noise3[i] * 0.5));
+
+    // for (let i = 0; i < 64; i++) {
+    //   console.log(actualL[i], actualR[i]);
+    // }
+
+    assert.deepEqual(actualL, expectedL);
+    assert.deepEqual(actualR, expectedR);
+  }
+  {
+    synth1.unitList[2].outputs[0].set([ 0 ]);
+    context.process();
+
+    const expectedL = Number.isFinite;
+    const expectedR = Number.isFinite;
+
+    // for (let i = 0; i < 64; i++) {
+    //   console.log(actualL[i], actualR[i]);
+    // }
+
+    assert(actualL.every(expectedL));
+    assert(actualR.every(expectedR));
+  }
+  {
+    context.process();
+
+    const expectedL = new Float32Array(nmap(64, (_, i) => noise2[i] * 0.5));
+    const expectedR = new Float32Array(nmap(64, (_, i) => noise3[i] * 0.5));
+
+    // for (let i = 0; i < 64; i++) {
+    //   console.log(actualL[i], actualR[i]);
+    // }
+
+    assert.deepEqual(actualL, expectedL);
+    assert.deepEqual(actualR, expectedR);
+  }
+  {
+    synth1.unitList[2].outputs[0].set([ 1 ]);
+    synth2.unitList[2].outputs[0].set([ 0 ]);
+    context.process();
+    context.process();
+
+    const expectedL = noise0;
+    const expectedR = noise1;
 
     // for (let i = 0; i < 64; i++) {
     //   console.log(actualL[i], actualR[i]);
@@ -57,14 +101,15 @@ test("k", () => {
   const noise2 = new Float32Array(nmap(64, Math.random));
   const noise3 = new Float32Array(nmap(1, Math.random));
   const synthdef = {
-    name: "OutTest",
-    consts: [ 0 ],
+    name: "XOutTest",
+    consts: [ 0, 0.5 ],
     paramValues: {},
     paramIndices: {},
     units: [
-      [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
-      [ "DC" , 1, 0, [ [ -1, 0 ]                     ], [ 1 ] ],
-      [ "Out", 1, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
+      [ "DC"  , 2, 0, [ [ -1, 0 ]                               ], [ 2 ] ],
+      [ "DC"  , 1, 0, [ [ -1, 0 ]                               ], [ 1 ] ],
+      [ "DC"  , 1, 0, [ [ -1, 1 ]                               ], [ 1 ] ],
+      [ "XOut", 1, 0, [ [ -1, 0 ], [ 2, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
     ]
   };
   const synth1 = context.createSynth(synthdef);
@@ -83,8 +128,8 @@ test("k", () => {
     synth2.unitList[1].outputs[0].set(noise3);
     context.process();
 
-    const expectedL = new Float32Array([ noise0[0] + noise2[0] ]);
-    const expectedR = new Float32Array([ noise1[0] + noise3[0] ]);
+    const expectedL = new Float32Array([ noise0[0] * 0.25 + noise2[0] * 0.5 ]);
+    const expectedR = new Float32Array([ noise1[0] * 0.25 + noise3[0] * 0.5 ]);
 
     // for (let i = 0; i < 1; i++) {
     //   console.log(actualL[i], actualR[i]);

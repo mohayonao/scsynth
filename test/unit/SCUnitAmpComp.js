@@ -27,12 +27,11 @@ test("akk", () => {
 
   {
     synth.unitList[0].outputs[0].fill(440); // in
-
     context.process();
 
-    const expected = x => !Number.isNaN(x);
+    const expected = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
     // }
 
@@ -63,12 +62,11 @@ test("aii", () => {
 
   {
     synth.unitList[0].outputs[0].fill(440); // in
-
     context.process();
 
-    const expected = x => !Number.isNaN(x);
+    const expected = Number.isFinite;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
     // }
 

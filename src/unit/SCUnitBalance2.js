@@ -6,6 +6,7 @@ const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
 const clamp = require("../util/clamp");
 const sine = require("./_sine");
+
 const gSine = sine.gSine;
 const dspProcess = {};
 
@@ -42,9 +43,9 @@ dspProcess["aaak"] = function(inNumSamples) {
   const leftIn = this.inputs[0];
   const rightIn = this.inputs[1];
   const posIn = this.inputs[2];
+  const level = this._level;
   const next_level = this.inputs[3][0];
 
-  let level = this._level;
   let ipos;
 
   if (level !== next_level) {
@@ -86,7 +87,7 @@ dspProcess["aakk"] = function(inNumSamples) {
 
   let ipos;
 
-  if (next_pos !== this._pos || next_level !== this._level) {
+  if (this._pos !== next_pos || this._level !== next_level) {
     ipos = (1024 * next_pos + 1024 + 0.5)|0;
     ipos = clamp(ipos, 0, 2048);
 

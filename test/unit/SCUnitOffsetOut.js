@@ -12,14 +12,14 @@ test("a", () => {
   const noise2 = new Float32Array(nmap(64, Math.random));
   const noise3 = new Float32Array(nmap(64, Math.random));
   const synthdef = {
-    name: "OutTest",
+    name: "OffsetOutTest",
     consts: [ 0 ],
     paramValues: {},
     paramIndices: {},
     units: [
-      [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
-      [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
-      [ "Out", 2, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
+      [ "DC"       , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
+      [ "DC"       , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
+      [ "OffsetOut", 2, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
     ]
   };
   const synth1 = context.createSynth(synthdef);
@@ -57,14 +57,14 @@ test("k", () => {
   const noise2 = new Float32Array(nmap(64, Math.random));
   const noise3 = new Float32Array(nmap(1, Math.random));
   const synthdef = {
-    name: "OutTest",
+    name: "OffsetOutTest",
     consts: [ 0 ],
     paramValues: {},
     paramIndices: {},
     units: [
-      [ "DC" , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
-      [ "DC" , 1, 0, [ [ -1, 0 ]                     ], [ 1 ] ],
-      [ "Out", 1, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
+      [ "DC"       , 2, 0, [ [ -1, 0 ]                     ], [ 2 ] ],
+      [ "DC"       , 1, 0, [ [ -1, 0 ]                     ], [ 1 ] ],
+      [ "OffsetOut", 1, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
     ]
   };
   const synth1 = context.createSynth(synthdef);

@@ -26,12 +26,11 @@ test("a", () => {
 
   {
     synth.unitList[0].outputs[0].fill(0);
-
     context.process();
 
-    const expected = new Float32Array(context.blockSize);
+    const expected = new Float32Array(64);
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
     // }
 
@@ -42,11 +41,11 @@ test("a", () => {
     synth.unitList[1].outputs[0][0] = 8;
     context.process();
 
-    const expected = new Float32Array(context.blockSize);
+    const expected = new Float32Array(64);
 
     expected[8] = 0.5;
 
-    // for (let i = 0; i < context.blockSize; i++) {
+    // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
     // }
 

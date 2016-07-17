@@ -8,6 +8,7 @@ const dspProcess = {};
 
 class SCUnitOut extends SCUnit {
   initialize() {
+    assert(2 <= this.inputs.length);
     if (this.calcRate === C.RATE_AUDIO) {
       assert(
         this.inputSpecs.slice(1).every(
@@ -26,14 +27,14 @@ class SCUnitOut extends SCUnit {
 dspProcess["a"] = function(inNumSamples) {
   const inputs = this.inputs;
   const buses = this._buses;
-  const firstBusChannel = (inputs[0][0]|0) - 1;
+  const firstBusChannel = inputs[0][0]|0;
 
-  for (let i = 1, imax = inputs.length; i < imax; i++) {
-    const bus = buses[firstBusChannel + i];
-    const _in = inputs[i];
+  for (let ch = 0, chmax = inputs.length - 1; ch < chmax; ch++) {
+    const out = buses[firstBusChannel + ch];
+    const inIn = inputs[ch + 1];
 
-    for (let j = 0; j < inNumSamples; j++) {
-      bus[j] += _in[j];
+    for (let i = 0; i < inNumSamples; i++) {
+      out[i] += inIn[i];
     }
   }
 };
@@ -41,10 +42,13 @@ dspProcess["a"] = function(inNumSamples) {
 dspProcess["k"] = function() {
   const inputs = this.inputs;
   const buses = this._buses;
-  const offset = (inputs[0][0]|0) - 1;
+  const firstBusChannel = inputs[0][0]|0;
 
-  for (let i = 1, imax = inputs.length; i < imax; i++) {
-    buses[offset + i][0] += inputs[i][0];
+  for (let ch = 0, chmax = inputs.length - 1; ch < chmax; ch++) {
+    const out = buses[firstBusChannel + ch];
+    const _in = inputs[ch + 1][0];
+
+    out[0] += _in;
   }
 };
 

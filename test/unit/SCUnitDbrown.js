@@ -28,6 +28,8 @@ test.fork("d", () => {
 
   context.addToTail(synth);
 
+  const actual = context.audioBuses[0];
+
   {
     synth.unitList[0].outputs[0].set([ 1, 0, 1, 0, 1, 0, 1, 0 ]);
     synth.unitList[1].outputs[0].set([ 1 ]);
@@ -41,11 +43,13 @@ test.fork("d", () => {
       }
       return (1 <= x && x < 2) && (i ? Math.abs(x - list[i - 1]) < 0.05 : 1);
     };
-    const actual = context.audioBuses[0];
+
+    // for (let i = 0; i < 8; i++) {
+    //   console.log(actual[i]);
+    // }
 
     assert(actual.every(expected));
   }
-
   {
     synth.unitList[0].outputs[0].set([ 1, 0, 1, 0, 1, 0, 1, 0 ]);
     synth.unitList[1].outputs[0].set([ 3 ]);
@@ -60,7 +64,10 @@ test.fork("d", () => {
       }
       return (3 <= x && x < 4) && (i ? Math.abs(x - list[i - 1]) < 0.01 : 1);
     };
-    const actual = context.audioBuses[0];
+
+    // for (let i = 0; i < 8; i++) {
+    //   console.log(actual[i]);
+    // }
 
     assert(actual.every(expected));
   }
