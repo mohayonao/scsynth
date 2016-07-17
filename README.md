@@ -46,6 +46,7 @@ for (let i = 0; i < 256; i++) {
 
 ## See Also
 
+- [UGen Implementation List](https://github.com/mohayonao/scsynth/wiki/UGen-Implementation-List)
 - [synthdef-decoder](https://github.com/mohayonao/synthdef-decoder)
   - decode SuperCollider Synth Definition File Format and convert to JSON
 
