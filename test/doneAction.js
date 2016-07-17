@@ -5,8 +5,10 @@ const test = require("eatest");
 const sinon = require("sinon");
 const SCGraphNode = require("../src/SCGraphNode");
 
+const context = {};
+
 function createNode(index, mem) {
-  const node = new SCGraphNode();
+  const node = new SCGraphNode(context);
 
   node.index = index;
   node.dspProcess = function() {
@@ -44,19 +46,18 @@ function createGraph() {
   const node12 = createNode(12, mem);
   const onstatechange = sinon.spy();
 
-  node0.parent = {};
-  node0.addToTail(node1);
-  node0.addToTail(node6);
-  node0.addToTail(node11);
-  node0.addToTail(node12);
-  node6.addToTail(node4);
-  node6.addToTail(node5);
-  node4.addToTail(node2);
-  node4.addToTail(node3);
-  node11.addToTail(node7);
-  node11.addToTail(node10);
-  node10.addToTail(node8);
-  node10.addToTail(node9);
+  node0.append(node1);
+  node0.append(node6);
+  node0.append(node11);
+  node0.append(node12);
+  node6.append(node4);
+  node6.append(node5);
+  node4.append(node2);
+  node4.append(node3);
+  node11.append(node7);
+  node11.append(node10);
+  node10.append(node8);
+  node10.append(node9);
 
   node0.on("statechange", onstatechange);
   node1.on("statechange", onstatechange);

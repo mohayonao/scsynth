@@ -22,12 +22,8 @@ test("a", () => {
       [ "OffsetOut", 2, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
     ]
   };
-  const synth1 = context.createSynth(synthdef);
-  const synth2 = context.createSynth(synthdef);
-
-  context.addToTail(synth1);
-  context.addToTail(synth2);
-
+  const synth1 = context.createSynth(synthdef).appendTo(context);
+  const synth2 = context.createSynth(synthdef).appendTo(context);
   const actualL = context.audioBuses[0];
   const actualR = context.audioBuses[1];
 
@@ -67,12 +63,8 @@ test("k", () => {
       [ "OffsetOut", 1, 0, [ [ -1, 0 ], [ 0, 0 ], [ 1, 0 ] ], [   ] ]
     ]
   };
-  const synth1 = context.createSynth(synthdef);
-  const synth2 = context.createSynth(synthdef);
-
-  context.addToTail(synth1);
-  context.addToTail(synth2);
-
+  const synth1 = context.createSynth(synthdef).appendTo(context);
+  const synth2 = context.createSynth(synthdef).appendTo(context);
   const actualL = context.controlBuses[0];
   const actualR = context.controlBuses[1];
 

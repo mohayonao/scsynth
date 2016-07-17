@@ -23,13 +23,11 @@ test("aaa", () => {
       [ "Out"   , 2, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[1].outputs[0].set(noise1);
   synth.unitList[2].outputs[0].set(noise2);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = (_, i) => noise0[i] * noise1[i] + noise2[i];
@@ -57,13 +55,11 @@ test("aak", () => {
       [ "Out"   , 2, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[1].outputs[0].set(noise1);
   synth.unitList[2].outputs[0].set(noise2);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = (_, i) => noise0[i] * noise1[i] + (noise2[0] * (i / 8));
@@ -91,12 +87,10 @@ test("aai", () => {
       [ "Out"   , 2, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[1].outputs[0].set(noise1);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = (_, i) => noise0[i] * noise1[i] + noise2;
@@ -124,13 +118,11 @@ test("aka", () => {
       [ "Out"   , 2, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[1].outputs[0].set(noise1);
   synth.unitList[2].outputs[0].set(noise2);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = (_, i) => noise0[i] * (noise1[0] * (i / 8)) + noise2[i];
@@ -158,13 +150,11 @@ test("akk", () => {
       [ "Out"   , 2, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[1].outputs[0].set(noise1);
   synth.unitList[2].outputs[0].set(noise2);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = (_, i) => noise0[i] * (noise1[0] * (i / 8)) + (noise2[0] * (i / 8));
@@ -192,12 +182,10 @@ test("aki", () => {
       [ "Out"   , 2, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[1].outputs[0].set(noise1);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = (_, i) => noise0[i] * (noise1[0] * (i / 8)) + noise2;
@@ -225,12 +213,10 @@ test("aia", () => {
       [ "Out"   , 2, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[2].outputs[0].set(noise2);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = (_, i) => noise0[i] * noise1 + noise2[i];
@@ -258,12 +244,10 @@ test("aik", () => {
       [ "Out"   , 2, 0, [ [ -1, 0 ], [  3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[2].outputs[0].set(noise2);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = (_, i) => noise0[i] * noise1 + (noise2[0] * (i / 8));
@@ -291,11 +275,9 @@ test("aii", () => {
       [ "Out"   , 2, 0, [ [ -1, 0 ], [  3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = (_, i) => noise0[i] * noise1 + noise2;
@@ -323,13 +305,11 @@ test("kkk", () => {
       [ "Out"   , 1, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[1].outputs[0].set(noise1);
   synth.unitList[2].outputs[0].set(noise2);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = () => noise0[0] * noise1[0] + noise2[0];
@@ -357,12 +337,10 @@ test("kki", () => {
       [ "Out"   , 1, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[1].outputs[0].set(noise1);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = () => noise0[0] * noise1[0] + noise2;
@@ -390,12 +368,10 @@ test("kik", () => {
       [ "Out"   , 1, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
   synth.unitList[2].outputs[0].set(noise2);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = () => noise0[0] * noise1 + noise2[0];
@@ -423,11 +399,9 @@ test("kii", () => {
       [ "Out"   , 1, 0, [ [ -1, 0 ], [ 3, 0 ]           ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
+  const synth = context.createSynth(synthdef).appendTo(context);
 
   synth.unitList[0].outputs[0].set(noise0);
-
-  context.addToTail(synth);
   context.process();
 
   const calc = () => noise0[0] * noise1 + noise2;

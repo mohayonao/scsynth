@@ -23,10 +23,7 @@ test.fork("d", () => {
       [ "Out"   , 2, 0, [ [ -1, 0 ], [  4, 0 ],          ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
