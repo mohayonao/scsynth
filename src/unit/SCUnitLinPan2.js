@@ -5,12 +5,10 @@ const C = require("../Constants");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
 const clamp = require("../util/clamp");
-const sine = require("./_sine");
 
-const gSine = sine.gSine;
 const dspProcess = {};
 
-class SCUnitPan2 extends SCUnit {
+class SCUnitLinPan2 extends SCUnit {
   initialize(rate) {
     assert(this.inputs.length === 3);
 
@@ -20,17 +18,11 @@ class SCUnitPan2 extends SCUnit {
       this.dspProcess = dspProcess["akk"];
     }
 
-    let ipos;
-
     this._slopeFactor = rate.slopeFactor;
-    this._pos = this.inputs[1][0];
     this._level = this.inputs[2][0];
-
-    ipos = (1024 * this._pos + 1024 + 0.5)|0;
-    ipos = clamp(ipos, 0, 2048);
-
-    this._leftAmp = this._level * gSine[2048 - ipos];
-    this._rightAmp = this._level * gSine[ipos];
+    this._pan = clamp(this.inputs[1][0] * 0.5 + 0.5, 0, 1);
+    this._rightAmp = this._level * this._pan;
+    this._leftAmp = this._level * (1 - this._pan);
 
     this.dspProcess(1);
   }
@@ -44,18 +36,17 @@ dspProcess["aak"] = function(inNumSamples) {
   const level = this._level;
   const next_level = this.inputs[2][0];
 
-  let ipos;
+  let pan;
 
   if (level !== next_level) {
     const level_slope = (next_level - level) * this._slopeFactor;
 
     for (let i = 0; i < inNumSamples; i++) {
-      ipos = (1024 * posIn[i] + 1024 + 0.5)|0;
-      ipos = clamp(ipos, 0, 2048);
+      pan = clamp(posIn[i] * 0.5 + 0.5, 0, 1);
 
       const amp = level + level_slope * i;
-      const leftAmp = amp * gSine[2048 - ipos];
-      const rightAmp = amp * gSine[ipos];
+      const rightAmp = amp * pan;
+      const leftAmp = amp * (1 - pan);
 
       leftOut[i] = inIn[i] * leftAmp;
       rightOut[i] = inIn[i] * rightAmp;
@@ -64,10 +55,9 @@ dspProcess["aak"] = function(inNumSamples) {
     this._level = next_level;
   } else {
     for (let i = 0; i < inNumSamples; i++) {
-      ipos = (1024 * posIn[i] + 1024 + 0.5)|0;
-      ipos = clamp(ipos, 0, 2048);
-      leftOut[i] = inIn[i] * level * gSine[2048 - ipos];
-      rightOut[i] = inIn[i] * level * gSine[ipos];
+      pan = clamp(posIn[i] * 0.5 + 0.5, 0, 1);
+      leftOut[i] = inIn[i] * (level * (1 - pan));
+      rightOut[i] = inIn[i] * (level * pan);
     }
   }
 };
@@ -76,19 +66,14 @@ dspProcess["akk"] = function(inNumSamples) {
   const leftOut = this.outputs[0];
   const rightOut = this.outputs[1];
   const inIn = this.inputs[0];
-  const next_pos = this.inputs[1][0];
+  const next_pan = clamp(this.inputs[1][0] * 0.5 + 0.5, 0, 1);
   const next_level = this.inputs[2][0];
   const leftAmp = this._leftAmp;
   const rightAmp = this._rightAmp;
 
-  let ipos;
-
-  if (this._pos !== next_pos || this._level !== next_level) {
-    ipos = (1024 * next_pos + 1024 + 0.5)|0;
-    ipos = clamp(ipos, 0, 2048);
-
-    const next_leftAmp = next_level * gSine[2048 - ipos];
-    const next_rightAmp = next_level * gSine[ipos];
+  if (this._pan !== next_pan || this._level !== next_level) {
+    const next_rightAmp = next_level * next_pan;
+    const next_leftAmp = next_level * (1 - next_pan);
     const leftAmp_slope = (next_leftAmp - leftAmp) * this._slopeFactor;
     const rightAmp_slope = (next_rightAmp - rightAmp) * this._slopeFactor;
 
@@ -97,7 +82,7 @@ dspProcess["akk"] = function(inNumSamples) {
       rightOut[i] = inIn[i] * (rightAmp + rightAmp_slope * i);
     }
 
-    this._pos = next_pos;
+    this._pan = next_pan;
     this._level = next_level;
     this._leftAmp = next_leftAmp;
     this._rightAmp = next_rightAmp;
@@ -109,6 +94,6 @@ dspProcess["akk"] = function(inNumSamples) {
   }
 };
 
-SCUnitRepository.registerSCUnitClass("Pan2", SCUnitPan2);
+SCUnitRepository.registerSCUnitClass("LinPan2", SCUnitLinPan2);
 
-module.exports = SCUnitPan2;
+module.exports = SCUnitLinPan2;
