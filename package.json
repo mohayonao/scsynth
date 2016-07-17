@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "nmap": "^0.9.0",
-    "sc-random": "^1.0.0",
     "shuffle-array": "^1.0.0"
   },
   "devDependencies": {
@@ -23,6 +22,7 @@
     "npm-run-all": "^2.3.0",
     "nyc": "^7.0.0",
     "power-assert": "^1.4.1",
+    "sc-random": "^1.0.0",
     "sinon": "^1.17.4"
   },
   "engines": {
