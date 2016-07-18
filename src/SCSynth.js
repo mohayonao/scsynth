@@ -5,9 +5,8 @@ const SCSynthBuilder = require("./SCSynthBuilder");
 
 class SCSynth extends SCGraphNode {
   constructor(context) {
-    super();
+    super(context);
 
-    this.context = context;
     this.synthdef = null;
     this.paramIndices = null;
     this.consts = null;

@@ -25,10 +25,7 @@ test("aaaa", () => {
       [ "Out" , 2, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
@@ -69,10 +66,7 @@ test("aaak", () => {
       [ "Out" , 2, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
@@ -113,10 +107,7 @@ test("aaai", () => {
       [ "Out" , 2, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
@@ -156,10 +147,7 @@ test("aakk", () => {
       [ "Out" , 2, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
@@ -200,10 +188,7 @@ test("aaki", () => {
       [ "Out" , 2, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
@@ -243,10 +228,7 @@ test("aaii", () => {
       [ "Out" , 2, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
@@ -285,10 +267,7 @@ test("akkk", () => {
       [ "Out" , 2, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
@@ -329,10 +308,7 @@ test("akki", () => {
       [ "Out" , 2, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
@@ -372,10 +348,7 @@ test("akii", () => {
       [ "Out" , 2, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
@@ -414,10 +387,7 @@ test("aiii", () => {
       [ "Out" , 2, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.audioBuses[0];
 
   {
@@ -455,10 +425,7 @@ test("kkkk", () => {
       [ "Out" , 1, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.controlBuses[0];
 
   {
@@ -499,10 +466,7 @@ test("kkki", () => {
       [ "Out" , 1, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.controlBuses[0];
 
   {
@@ -542,10 +506,7 @@ test("kkii", () => {
       [ "Out" , 1, 0, [ [ -1, 0 ], [ 4, 0 ]                     ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.controlBuses[0];
 
   {
@@ -584,10 +545,7 @@ test("kiii", () => {
       [ "Out" , 1, 0, [ [ -1, 0 ], [  4, 0 ]                    ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.controlBuses[0];
 
   {
@@ -625,10 +583,7 @@ test("iiii", () => {
       [ "Out" , 1, 0, [ [ -1, 0 ], [  4, 0 ]                    ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  context.createSynth(synthdef).appendTo(context);
   const actual = context.controlBuses[0];
 
   {

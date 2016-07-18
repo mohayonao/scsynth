@@ -3,59 +3,31 @@
 const events = require("events");
 const doneAction = require("./SCGraphNodeDoneAction");
 
+const STATE_CLOSED = 0;
+const STATE_RUNNING = 1;
+const STATE_SUSPENDED = 2;
+const STATES = [ "closed", "running", "suspended" ];
+
 class SCGraphNode extends events.EventEmitter {
-  constructor() {
+  constructor(context) {
     super();
 
+    this.context = context;
     this.parent = null;
     this.prev = null;
     this.next = null;
     this.head = null;
     this.tail = null;
 
-    this._running = true;
+    this._state = STATE_RUNNING;
   }
 
   get state() {
-    return this.parent !== null ? (this._running ? "running" : "suspended") : "closed";
+    return STATES[this._state];
   }
 
-  start() {
-    if (!this._running) {
-      this._running = true;
-      this.emit("statechange");
-    }
-    return this;
-  }
-
-  stop() {
-    if (this._running) {
-      this._running = false;
-      this.emit("statechange");
-    }
-    return this;
-  }
-
-  addToHead(node) {
-    if (node.parent || node.prev || node.next) {
-      throw new TypeError("node is already a partially element of another graph");
-    }
-    node.parent = this;
-    node.prev = null;
-    node.next = this.head;
-    if (this.head) {
-      this.head.prev = node;
-      this.head = node;
-    } else {
-      this.head = this.tail = node;
-    }
-    node.emit("statechange");
-  }
-
-  addToTail(node) {
-    if (node.parent || node.prev || node.next) {
-      throw new TypeError("node is already a partially element of another graph");
-    }
+  append(node) {
+    this._checkNode(node);
     node.parent = this;
     node.prev = this.tail;
     node.next = null;
@@ -65,13 +37,35 @@ class SCGraphNode extends events.EventEmitter {
     } else {
       this.head = this.tail = node;
     }
-    node.emit("statechange");
+    return this;
   }
 
-  addBefore(node) {
-    if (node.parent || node.prev || node.next) {
-      throw new TypeError("node is already a partially element of another graph");
+  appendTo(node) {
+    node.append(this);
+    return this;
+  }
+
+  prepend(node) {
+    this._checkNode(node);
+    node.parent = this;
+    node.prev = null;
+    node.next = this.head;
+    if (this.head) {
+      this.head.prev = node;
+      this.head = node;
+    } else {
+      this.head = this.tail = node;
     }
+    return this;
+  }
+
+  prependTo(node) {
+    node.prepend(this);
+    return this;
+  }
+
+  before(node) {
+    this._checkNode(node);
     node.parent = this.parent;
     node.prev = this.prev;
     node.next = this;
@@ -81,13 +75,16 @@ class SCGraphNode extends events.EventEmitter {
       node.parent.head = node;
     }
     this.prev = node;
-    node.emit("statechange");
+    return this;
   }
 
-  addAfter(node) {
-    if (node.parent || node.prev || node.next) {
-      throw new TypeError("node is already a partially element of another graph");
-    }
+  insertBefore(node) {
+    node.before(this);
+    return this;
+  }
+
+  after(node) {
+    this._checkNode(node);
     node.parent = this.parent;
     node.prev = this;
     node.next = this.next;
@@ -97,15 +94,20 @@ class SCGraphNode extends events.EventEmitter {
       node.parent.tail = node;
     }
     this.next = node;
-    node.emit("statechange");
+    return this;
+  }
+
+  insertAfter(node) {
+    node.after(this);
+    return this;
   }
 
   replace(node) {
-    node.addAfter(this);
-    node.close();
+    node.after(this).remove();
+    return this;
   }
 
-  close() {
+  remove() {
     if (this.prev) {
       this.prev.next = this.next;
     }
@@ -125,8 +127,32 @@ class SCGraphNode extends events.EventEmitter {
     this.next = null;
     this.head = null;
     this.tail = null;
+    return this;
+  }
 
-    this.emit("statechange");
+  suspend() {
+    if (this._state === STATE_RUNNING) {
+      this._state = STATE_SUSPENDED;
+      this.emit("statechange");
+    }
+    return this;
+  }
+
+  resume() {
+    if (this._state === STATE_SUSPENDED) {
+      this._state = STATE_RUNNING;
+      this.emit("statechange");
+    }
+    return this;
+  }
+
+  close() {
+    if (this._state !== STATE_CLOSED) {
+      this.remove();
+      this._state = STATE_CLOSED;
+      this.emit("statechange");
+    }
+    return this;
   }
 
   closeAll() {
@@ -137,6 +163,7 @@ class SCGraphNode extends events.EventEmitter {
       node = next;
     }
     this.close();
+    return this;
   }
 
   closeDeep() {
@@ -147,6 +174,7 @@ class SCGraphNode extends events.EventEmitter {
       node = next;
     }
     this.close();
+    return this;
   }
 
   doneAction(action) {
@@ -156,7 +184,7 @@ class SCGraphNode extends events.EventEmitter {
   }
 
   process(inNumSamples) {
-    if (this._running) {
+    if (this._state === STATE_RUNNING) {
       if (this.head) {
         this.head.process(inNumSamples);
       }
@@ -166,6 +194,16 @@ class SCGraphNode extends events.EventEmitter {
     }
     if (this.next) {
       this.next.process(inNumSamples);
+    }
+  }
+
+  // FIXME: rename!!!
+  _checkNode(node) {
+    if (node.context !== this.context) {
+      throw new TypeError("cannot append to a node belonging to a different context");
+    }
+    if (node.parent || node.prev || node.next) {
+      throw new TypeError("node is already a partially element of another graph");
     }
   }
 }

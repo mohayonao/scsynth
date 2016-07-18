@@ -24,10 +24,7 @@ test("akkk", () => {
       [ "Out"      , 2, 0, [ [ -1, 0 ], [ 5, 0 ], [ 5, 1 ]                     ], [      ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actualL = context.audioBuses[0];
   const actualR = context.audioBuses[1];
 

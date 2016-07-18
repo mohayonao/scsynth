@@ -32,7 +32,7 @@ const synth = context.createSynth({
   ]
 });
 
-context.addToTail(synth);
+context.append(synth);
 
 for (let i = 0; i < 256; i++) {
   synth.$freq = 440 * Math.pow(2, i / 256);

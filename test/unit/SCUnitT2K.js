@@ -17,10 +17,7 @@ test("a", () => {
       [ "Out", 1, 0, [ [ -1, 0 ], [ 1, 0 ] ], [   ] ]
     ]
   };
-  const synth = context.createSynth(synthdef);
-
-  context.addToTail(synth);
-
+  const synth = context.createSynth(synthdef).appendTo(context);
   const actual = context.controlBuses[0];
 
   {

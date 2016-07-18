@@ -35,7 +35,7 @@ class SCContext {
     this.inputs = [];
     this.outputs = nmap(this.numberOfChannels, (_, ch) => this.audioBuses[ch]);
 
-    this.root = new SCGraphNode();
+    this.root = new SCGraphNode(this);
     this.root.parent = this; // state hacking
     this.aRate = new SCRate(this.sampleRate, this.blockSize);
     this.kRate = new SCRate(this.sampleRate / this.blockSize, 1);
@@ -50,15 +50,17 @@ class SCContext {
   }
 
   createGroup() {
-    return new SCGraphNode();
+    return new SCGraphNode(this);
   }
 
-  addToHead(node) {
-    this.root.addToHead(node);
+  append(node) {
+    this.root.append(node);
+    return this;
   }
 
-  addToTail(node) {
-    this.root.addToTail(node);
+  prepend(node) {
+    this.root.prepend(node);
+    return this;
   }
 
   process() {

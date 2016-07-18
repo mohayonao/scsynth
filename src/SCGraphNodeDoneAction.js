@@ -7,7 +7,7 @@ doneAction[0] = null;
 
 // pause the enclosing synth, but do not free it
 doneAction[1] = (node) => {
-  node.stop();
+  node.suspend();
 };
 
 // free the enclosing synth
@@ -70,7 +70,7 @@ doneAction[8] = (node) => {
 // free this synth and pause the preceding node
 doneAction[9] = (node) => {
   if (node.prev) {
-    node.prev.stop();
+    node.prev.suspend();
   }
   node.close();
 };
@@ -78,7 +78,7 @@ doneAction[9] = (node) => {
 // free this synth and pause the following node
 doneAction[10] = (node) => {
   if (node.next) {
-    node.next.stop();
+    node.next.suspend();
   }
   node.close();
 };
