@@ -1,48 +1,67 @@
 "use strict";
+
 const C = require("../Constants");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
-const fillRange = require("../util/fillRange");
+const fill = require("../util/fill");
 const dspProcess = {};
+
 class SCUnitLatch extends SCUnit {
   initialize() {
     if (this.inputSpecs[1].rate === C.RATE_AUDIO) {
-      this.dspProcess = dspProcess["next_aa"];
+      this.dspProcess = dspProcess["aa"];
     } else {
-      this.dspProcess = dspProcess["next_ak"];
+      this.dspProcess = dspProcess["ak"];
     }
+    const level = this.inputs[0][0];
+    const trig = this.inputs[1][0];
+
     this._trig = 0;
     this._level = 0;
-    this.outputs[0][0] = this.inputs[1][0] > 0 ? this.inputs[0][0] : 0;
+
+    this.outputs[0][0] = 0 < trig ? level : 0;
   }
 }
-dspProcess["next_aa"] = function (inNumSamples) {
+
+dspProcess["aa"] = function(inNumSamples) {
   const out = this.outputs[0];
   const inIn = this.inputs[0];
   const trigIn = this.inputs[1];
+
   let trig = this._trig;
   let level = this._level;
+
   for (let i = 0; i < inNumSamples; i++) {
-    const curTrig = trigIn[i];
-    if (trig <= 0 && curTrig > 0) {
+    const curtrig = trigIn[i];
+
+    if (trig <= 0 && 0 < curtrig) {
       level = inIn[i];
     }
+
     out[i] = level;
-    trig = curTrig;
+    trig = curtrig;
   }
+
   this._trig = trig;
   this._level = level;
 };
-dspProcess["next_ak"] = function (inNumSamples) {
+
+dspProcess["ak"] = function() {
   const out = this.outputs[0];
-  const trig = this.inputs[0][1];
+  const trig = this.inputs[1][0];
+
   let level = this._level;
-  if (this._trig <= 0 && trig > 0) {
+
+  if (this._trig <= 0 && 0 < trig) {
     level = this.inputs[0][0];
   }
-  fillRange(out, level, 0, inNumSamples);
+
+  fill(out, level);
+
   this._trig = trig;
   this._level = level;
 };
+
 SCUnitRepository.registerSCUnitClass("Latch", SCUnitLatch);
+
 module.exports = SCUnitLatch;
