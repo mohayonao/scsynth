@@ -17,7 +17,7 @@ class SCUnitKlang extends SCUnit {
 }
 
 function setCoefs(unit, rate) {
-  const numpartials = (unit.inputs.length - 2) / 3;
+  const numpartials = Math.floor((unit.inputs.length - 2) / 3);
   const numcoefs = 3 * numpartials;
   const coefs = new Float32Array(numcoefs);
   const inputs = unit.inputs;
@@ -143,19 +143,20 @@ dspProcess["aii"] = function(inNumSamples) {
   this._prep(inNumSamples);
 
   for (let n = 0, nmax = this._n; n < nmax; n++) {
-    const b1_0 = coefs[2];
-    const b1_1 = coefs[5];
-    const b1_2 = coefs[8];
-    const b1_3 = coefs[11];
+    const k = n * 12;
+    const b1_0 = coefs[k + 2];
+    const b1_1 = coefs[k + 5];
+    const b1_2 = coefs[k + 8];
+    const b1_3 = coefs[k + 11];
 
-    let y1_0 = coefs[0];
-    let y2_0 = coefs[1];
-    let y1_1 = coefs[3];
-    let y2_1 = coefs[4];
-    let y1_2 = coefs[6];
-    let y2_2 = coefs[7];
-    let y1_3 = coefs[9];
-    let y2_3 = coefs[10];
+    let y1_0 = coefs[k + 0];
+    let y2_0 = coefs[k + 1];
+    let y1_1 = coefs[k + 3];
+    let y2_1 = coefs[k + 4];
+    let y1_2 = coefs[k + 6];
+    let y2_2 = coefs[k + 7];
+    let y1_3 = coefs[k + 9];
+    let y2_3 = coefs[k + 10];
 
     for (let i = 0; i < inNumSamples; i++) {
       const y0_0 = b1_0 * y1_0 - y2_0;
@@ -175,14 +176,14 @@ dspProcess["aii"] = function(inNumSamples) {
       y1_3 = y0_3;
     }
 
-    coefs[0] = y1_0;
-    coefs[1] = y2_0;
-    coefs[3] = y1_1;
-    coefs[4] = y2_1;
-    coefs[6] = y1_2;
-    coefs[7] = y2_2;
-    coefs[9] = y1_3;
-    coefs[10] = y2_3;
+    coefs[k + 0] = y1_0;
+    coefs[k + 1] = y2_0;
+    coefs[k + 3] = y1_1;
+    coefs[k + 4] = y2_1;
+    coefs[k + 6] = y1_2;
+    coefs[k + 7] = y2_2;
+    coefs[k + 9] = y1_3;
+    coefs[k + 10] = y2_3;
   }
 };
 
