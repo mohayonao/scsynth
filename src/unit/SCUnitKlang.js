@@ -45,7 +45,7 @@ function setCoefs(unit, rate) {
   return outf;
 }
 
-dspProcess["prep3"] = function (inNumSamples) {
+dspProcess["prep3"] = function(inNumSamples) {
   const out = this.outputs[0];
   const coefs = this._coefs;
   const b1_0 = coefs[2];
@@ -140,9 +140,7 @@ dspProcess["aii"] = function(inNumSamples) {
   const out = this.outputs[0];
   const coefs = this._coefs;
 
-  {
-    fill(out, 0);
-  }
+  this._prep(inNumSamples);
 
   for (let n = 0, nmax = this._n; n < nmax; n++) {
     const b1_0 = coefs[2];

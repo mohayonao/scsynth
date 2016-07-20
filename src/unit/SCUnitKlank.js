@@ -172,7 +172,7 @@ dspProcess["aiii"] = function (inNumSamples) {
   const coefs = this._coefs;
   const buf = this._buf;
 
-  this._prep();
+  this._prep(inNumSamples);
 
   for (let n = 0, nmax = this._n; n < nmax; n++) {
     const k = n * 20;
