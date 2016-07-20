@@ -54,7 +54,7 @@ test("a:1", () => {
     synth.unitList[0].outputs[0][0] = 1;
     context.process();
 
-    const expected = x => x !== 0 && Math.abs(x) < 2;
+    const expected = x => x !== 0 && Math.abs(x) < 3;
 
     // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
@@ -84,7 +84,7 @@ test("a:2", () => {
     synth.unitList[0].outputs[0][0] = 1;
     context.process();
 
-    const expected = x => x !== 0 && Math.abs(x) < 2;
+    const expected = x => x !== 0 && Math.abs(x) < 3;
 
     // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
@@ -114,7 +114,7 @@ test("a:3", () => {
     synth.unitList[0].outputs[0][0] = 1;
     context.process();
 
-    const expected = x => x !== 0 && Math.abs(x) < 2;
+    const expected = x => x !== 0 && Math.abs(x) < 4;
 
     // for (let i = 0; i < 64; i++) {
     //   console.log(actual[i]);
