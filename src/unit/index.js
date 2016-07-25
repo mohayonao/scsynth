@@ -38,6 +38,7 @@ module.exports = {
   SCUnitDelayL: require("./SCUnitDelayL"),
   SCUnitDelayN: require("./SCUnitDelayN"),
   SCUnitDemand: require("./SCUnitDemand"),
+  SCUnitDemandEnvGen: require("./SCUnitDemandEnvGen"),
   SCUnitDetectSilence: require("./SCUnitDetectSilence"),
   SCUnitDgeom: require("./SCUnitDgeom"),
   SCUnitDibrown: require("./SCUnitDibrown"),
