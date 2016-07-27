@@ -33,8 +33,8 @@ dspProcess["aki"] = function(inNumSamples) {
   const inIn = this.inputs[0];
   const amp = this.inputs[1][0];
   const bufSize = this._bufSize;
-  const level = this._level;
 
+  let level = this._level;
   let pos = this._pos;
   let next_level = this._level;
   let level_slope = this._level_slope;
@@ -51,9 +51,10 @@ dspProcess["aki"] = function(inNumSamples) {
 
     if (2 <= this._flips) {
       for (let i = 0; i < nsmps; i++) {
-        const x = (level + level_slope * i) * xoutbuf[pos + j];
+        const x = level * xoutbuf[pos + j];
         xinbuf[pos + j] = val = inIn[j];
         out[j++] = x;
+        level += level_slope;
         curmaxval = Math.max(curmaxval, Math.abs(val));
       }
     } else {
@@ -91,7 +92,7 @@ dspProcess["aki"] = function(inNumSamples) {
   }
 
   this._pos = pos;
-  this._level = next_level;
+  this._level = level;
   this._level_slope = level_slope;
   this._curmaxval = curmaxval;
 };
