@@ -15,10 +15,10 @@ class SCUnitSinOsc extends SCUnit {
     this.dspProcess = dspProcess[$r2k(this.inputSpecs)];
 
     this._slopeFactor = rate.slopeFactor;
-    this._freq = this.inputs[0][0];
-    this._phase = this.inputs[1][0];
     this._radtoinc = sine.kSineSize / (2 * Math.PI);
     this._cpstoinc = sine.kSineSize * (1 / rate.sampleRate);
+    this._freq = this.inputs[0][0];
+    this._phase = this.inputs[1][0];
     this._x = 0;
 
     this.dspProcess(1);
@@ -29,7 +29,7 @@ function $r2k(inputSpecs) {
   return inputSpecs.map(x => x.rate === C.RATE_AUDIO ? "a" : x.rate === C.RATE_SCALAR ? "i" : "k").join("");
 }
 
-dspProcess["aa"] = function (inNumSamples) {
+dspProcess["aa"] = function(inNumSamples) {
   const out = this.outputs[0];
   const freqIn = this.inputs[0];
   const phaseIn = this.inputs[1];
@@ -44,6 +44,7 @@ dspProcess["aa"] = function (inNumSamples) {
     const ia = ix % 1;
 
     out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
+
     x += freqIn[i] * cpstoinc;
   }
 
@@ -71,6 +72,7 @@ dspProcess["ak"] = function(inNumSamples) {
       const ia = ix % 1;
 
       out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
+
       x += freqIn[i] * cpstoinc;
     }
   } else {
@@ -82,6 +84,7 @@ dspProcess["ak"] = function(inNumSamples) {
       const ia = ix % 1;
 
       out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
+
       x += freqIn[i] * cpstoinc;
     }
 
@@ -109,7 +112,8 @@ dspProcess["ai"] = function(inNumSamples) {
     const ia = ix % 1;
 
     out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
-    x += cpstoinc * freqIn[i];
+
+    x += freqIn[i] * cpstoinc;
   }
 
   if (kSineSize <= x) {
@@ -136,6 +140,7 @@ dspProcess["ka"] = function(inNumSamples) {
       const ia = ix % 1;
 
       out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
+
       x += freq * cpstoinc;
     }
   } else {
@@ -147,6 +152,7 @@ dspProcess["ka"] = function(inNumSamples) {
       const ia = ix % 1;
 
       out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
+
       x += (freq + freqSlope * i) * cpstoinc;
     }
 
@@ -178,6 +184,7 @@ dspProcess["kk"] = function(inNumSamples) {
       const ia = ix % 1;
 
       out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
+
       x += freq * cpstoinc;
     }
   } else {
@@ -190,6 +197,7 @@ dspProcess["kk"] = function(inNumSamples) {
       const ia = ix % 1;
 
       out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
+
       x += (freq + freqSlope * i) * cpstoinc;
     }
 
