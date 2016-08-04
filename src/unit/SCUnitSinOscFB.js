@@ -26,8 +26,8 @@ class SCUnitSinOscFB extends SCUnit {
 
 dspProcess["kk"] = function(inNumSamples) {
   const out = this.outputs[0];
-  const nextFreq = this.inputs[0][0];
-  const nextFeedback = this.inputs[1][0];
+  const freq_next = this.inputs[0][0];
+  const feedback_next = this.inputs[1][0];
   const freq = this._freq;
   const feedback = this._feedback;
   const radtoinc = this._radtoinc;
@@ -36,7 +36,7 @@ dspProcess["kk"] = function(inNumSamples) {
   let y = this._y;
   let x = this._x;
 
-  if (freq === nextFreq && feedback === nextFeedback) {
+  if (freq === freq_next && feedback === feedback_next) {
     for (let i = 0; i < inNumSamples; i++) {
       const ix = x + y * feedback * radtoinc;
       const i0 = (ix & kSineMask) << 1;
@@ -48,22 +48,22 @@ dspProcess["kk"] = function(inNumSamples) {
       y = out[i];
     }
   } else {
-    const freqSlope = (nextFreq - freq) * this._slopeFactor;
-    const feedbackSlope = (nextFeedback - feedback) * this._slopeFactor;
+    const freq_slope = (freq_next - freq) * this._slopeFactor;
+    const feedback_slope = (feedback_next - feedback) * this._slopeFactor;
 
     for (let i = 0; i < inNumSamples; i++) {
-      const ix = x + y * (feedback + feedbackSlope * i) * radtoinc;
+      const ix = x + y * (feedback + feedback_slope * i) * radtoinc;
       const i0 = (ix & kSineMask) << 1;
       const ia = ix % 1;
 
       out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
 
-      x += (freq + freqSlope * i) * cpstoinc;
+      x += (freq + freq_slope * i) * cpstoinc;
       y = out[i];
     }
 
-    this._freq = nextFreq;
-    this._feedback = nextFeedback;
+    this._freq = freq_next;
+    this._feedback = feedback_next;
   }
 
   if (kSineSize <= x) {

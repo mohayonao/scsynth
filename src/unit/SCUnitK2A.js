@@ -1,6 +1,5 @@
 "use strict";
 
-const assert = require("assert");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
 const fillRange = require("../util/fillRange");
@@ -8,7 +7,6 @@ const dspProcess = {};
 
 class SCUnitK2A extends SCUnit {
   initialize() {
-    assert(this.inputs.length === 1);
     this.dspProcess = dspProcess["a"];
   }
 }

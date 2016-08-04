@@ -57,15 +57,15 @@ dspProcess["aak"] = function(inNumSamples) {
   const out = this.outputs[0];
   const inIn0 = this.inputs[0];
   const inIn1 = this.inputs[1];
+  const in2_next = this.inputs[2][0];
   const in2 = this._in2;
-  const next_in2 = this.inputs[2][0];
-  const in2_slope = (next_in2 - in2) * this._slopeFactor;
+  const in2_slope = (in2_next - in2) * this._slopeFactor;
 
   for (let i = 0; i < inNumSamples; i++) {
     out[i] = inIn0[i] + inIn1[i] + (in2 + in2_slope * i);
   }
 
-  this._in2 = next_in2;
+  this._in2 = in2_next;
 };
 
 dspProcess["aai"] = function(inNumSamples) {
@@ -82,9 +82,9 @@ dspProcess["aai"] = function(inNumSamples) {
 dspProcess["akk"] = function(inNumSamples) {
   const out = this.outputs[0];
   const inIn0 = this.inputs[0];
+  const in12_next = this.inputs[1][0] + this.inputs[2][0];
   const in12 = this._in1 + this._in2;
-  const next_in12 = this.inputs[1][0] + this.inputs[2][0];
-  const in12_slope = (next_in12 - in12) * this._slopeFactor;
+  const in12_slope = (in12_next - in12) * this._slopeFactor;
 
   for (let i = 0; i < inNumSamples; i++) {
     out[i] = inIn0[i] + (in12 + in12_slope * i);
