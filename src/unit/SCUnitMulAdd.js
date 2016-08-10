@@ -53,15 +53,15 @@ dspProcess["aak"] = function(inNumSamples) {
   const out = this.outputs[0];
   const inIn = this.inputs[0];
   const mulIn = this.inputs[1];
+  const add_next = this.inputs[2][0];
   const add = this._add;
-  const next_add = this.inputs[2][0];
-  const add_slope = (next_add - add) * this._slopeFactor;
+  const add_slope = (add_next - add) * this._slopeFactor;
 
   for (let i = 0; i < inNumSamples; i++) {
     out[i] = inIn[i] * mulIn[i] + (add + add_slope * i);
   }
 
-  this._add = next_add;
+  this._add = add_next;
 };
 
 dspProcess["aai"] = function(inNumSamples) {
@@ -78,56 +78,56 @@ dspProcess["aai"] = function(inNumSamples) {
 dspProcess["aka"] = function(inNumSamples) {
   const out = this.outputs[0];
   const inIn = this.inputs[0];
-  const mul = this._mul;
+  const mul_next = this.inputs[1][0];
   const addIn = this.inputs[2];
-  const next_mul = this.inputs[1][0];
-  const mul_slope = (next_mul - mul) * this._slopeFactor;
+  const mul = this._mul;
+  const mul_slope = (mul_next - mul) * this._slopeFactor;
 
   for (let i = 0; i < inNumSamples; i++) {
     out[i] = inIn[i] * (mul + mul_slope * i) + addIn[i];
   }
 
-  this._mul = next_mul;
+  this._mul = mul_next;
 };
 
 dspProcess["akk"] = function(inNumSamples) {
   const out = this.outputs[0];
   const inIn = this.inputs[0];
+  const mul_next = this.inputs[1][0];
+  const add_next = this.inputs[2][0];
   const mul = this._mul;
   const add = this._add;
-  const next_mul = this.inputs[1][0];
-  const mul_slope = (next_mul - mul) * this._slopeFactor;
-  const next_add = this.inputs[2][0];
-  const add_slope = (next_add - add) * this._slopeFactor;
+  const mul_slope = (mul_next - mul) * this._slopeFactor;
+  const add_slope = (add_next - add) * this._slopeFactor;
 
   for (let i = 0; i < inNumSamples; i++) {
     out[i] = inIn[i] * (mul + mul_slope * i) + (add + add_slope * i);
   }
 
-  this._mul = next_mul;
-  this._add = next_add;
+  this._mul = mul_next;
+  this._add = add_next;
 };
 
 dspProcess["aki"] = function(inNumSamples) {
   const out = this.outputs[0];
   const inIn = this.inputs[0];
+  const mul_next = this.inputs[1][0];
   const mul = this._mul;
   const add = this._add;
-  const next_mul = this.inputs[1][0];
-  const mul_slope = (next_mul - mul) * this._slopeFactor;
+  const mul_slope = (mul_next - mul) * this._slopeFactor;
 
   for (let i = 0; i < inNumSamples; i++) {
     out[i] = inIn[i] * (mul + mul_slope * i) + add;
   }
 
-  this._mul = next_mul;
+  this._mul = mul_next;
 };
 
 dspProcess["aia"] = function(inNumSamples) {
   const out = this.outputs[0];
   const inIn = this.inputs[0];
-  const mul = this._mul;
   const addIn = this.inputs[2];
+  const mul = this._mul;
 
   for (let i = 0; i < inNumSamples; i++) {
     out[i] = inIn[i] * mul + addIn[i];
@@ -137,31 +137,31 @@ dspProcess["aia"] = function(inNumSamples) {
 dspProcess["aik"] = function(inNumSamples) {
   const out = this.outputs[0];
   const inIn = this.inputs[0];
+  const add_next = this.inputs[2][0];
   const mul = this._mul;
   const add = this._add;
-  const next_add = this.inputs[2][0];
-  const add_slope = (next_add - add) * this._slopeFactor;
+  const add_slope = (add_next - add) * this._slopeFactor;
 
   for (let i = 0; i < inNumSamples; i++) {
     out[i] = inIn[i] * mul + (add + add_slope * i);
   }
 
-  this._add = next_add;
+  this._add = add_next;
 };
 
 dspProcess["aii"] = function(inNumSamples) {
   const out = this.outputs[0];
   const inIn = this.inputs[0];
+  const mul_next = this.inputs[1][0];
   const mul = this._mul;
   const add = this._add;
-  const next_mul = this.inputs[1][0];
-  const mul_slope = (next_mul - mul) * this._slopeFactor;
+  const mul_slope = (mul_next - mul) * this._slopeFactor;
 
   for (let i = 0; i < inNumSamples; i++) {
     out[i] = inIn[i] * (mul + mul_slope * i) + add;
   }
 
-  this._mul = next_mul;
+  this._mul = mul_next;
 };
 
 dspProcess["kkk"] = function() {

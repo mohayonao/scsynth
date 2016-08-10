@@ -1,13 +1,11 @@
 "use strict";
 
-const assert = require("assert");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
 const dspProcess = {};
 
 class SCUnitA2K extends SCUnit {
   initialize() {
-    assert(this.inputs.length === 1);
     this.dspProcess = dspProcess["a"];
   }
 }

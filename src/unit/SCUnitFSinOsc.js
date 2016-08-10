@@ -27,13 +27,14 @@ class SCUnitFSinOsc extends SCUnit {
   }
 }
 
-dspProcess["ki"] = function (inNumSamples) {
+dspProcess["ki"] = function(inNumSamples) {
   const out = this.outputs[0];
-  const freq = this.inputs[0][0];
+  const freq_next = this.inputs[0][0];
+  const freq = this._freq;
 
-  if (freq !== this._freq) {
-    this._freq = freq;
-    this._b1 = 2 * Math.cos(freq * this._radiansPerSample);
+  if (freq !== freq_next) {
+    this._freq = freq_next;
+    this._b1 = 2 * Math.cos(freq_next * this._radiansPerSample);
   }
 
   const b1 = this._b1;
@@ -54,7 +55,7 @@ dspProcess["ki"] = function (inNumSamples) {
   this._y2 = y2;
 };
 
-dspProcess["ii"] = function (inNumSamples) {
+dspProcess["ii"] = function(inNumSamples) {
   const out = this.outputs[0];
   const b1 = this._b1;
 

@@ -58,14 +58,14 @@ dspProcess["aa"] = function(inNumSamples) {
 dspProcess["ak"] = function(inNumSamples) {
   const out = this.outputs[0];
   const freqIn = this.inputs[0];
-  const nextPhase = this.inputs[1][0];
+  const phase_next = this.inputs[1][0];
   const phase = this._phase;
   const radtoinc = this._radtoinc;
   const cpstoinc = this._cpstoinc;
 
   let x = this._x;
 
-  if (phase === nextPhase) {
+  if (phase === phase_next) {
     for (let i = 0; i < inNumSamples; i++) {
       const ix = x + phase * radtoinc;
       const i0 = (ix & kSineMask) << 1;
@@ -76,10 +76,10 @@ dspProcess["ak"] = function(inNumSamples) {
       x += freqIn[i] * cpstoinc;
     }
   } else {
-    const phaseSlope = (nextPhase - phase) * this._slopeFactor;
+    const phase_slope = (phase_next - phase) * this._slopeFactor;
 
     for (let i = 0; i < inNumSamples; i++) {
-      const ix = x + (phase + phaseSlope * i) * radtoinc;
+      const ix = x + (phase + phase_slope * i) * radtoinc;
       const i0 = (ix & kSineMask) << 1;
       const ia = ix % 1;
 
@@ -88,7 +88,7 @@ dspProcess["ak"] = function(inNumSamples) {
       x += freqIn[i] * cpstoinc;
     }
 
-    this._phase = nextPhase;
+    this._phase = phase_next;
   }
 
   if (kSineSize <= x) {
@@ -125,7 +125,7 @@ dspProcess["ai"] = function(inNumSamples) {
 
 dspProcess["ka"] = function(inNumSamples) {
   const out = this.outputs[0];
-  const nextFreq = this.inputs[0][0];
+  const freq_next = this.inputs[0][0];
   const phaseIn = this.inputs[1];
   const freq = this._freq;
   const radtoinc = this._radtoinc;
@@ -133,7 +133,7 @@ dspProcess["ka"] = function(inNumSamples) {
 
   let x = this._x;
 
-  if (nextFreq === freq) {
+  if (freq_next === freq) {
     for (let i = 0; i < inNumSamples; i++) {
       const ix = x + radtoinc * phaseIn[i];
       const i0 = (ix & kSineMask) << 1;
@@ -144,7 +144,7 @@ dspProcess["ka"] = function(inNumSamples) {
       x += freq * cpstoinc;
     }
   } else {
-    const freqSlope = (nextFreq - freq) * this._slopeFactor;
+    const freq_slope = (freq_next - freq) * this._slopeFactor;
 
     for (let i = 0; i < inNumSamples; i++) {
       const ix = x + radtoinc * phaseIn[i];
@@ -153,10 +153,10 @@ dspProcess["ka"] = function(inNumSamples) {
 
       out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
 
-      x += (freq + freqSlope * i) * cpstoinc;
+      x += (freq + freq_slope * i) * cpstoinc;
     }
 
-    this._freq = nextFreq;
+    this._freq = freq_next;
   }
 
   if (kSineSize <= x) {
@@ -168,8 +168,8 @@ dspProcess["ka"] = function(inNumSamples) {
 
 dspProcess["kk"] = function(inNumSamples) {
   const out = this.outputs[0];
-  const nextFreq = this.inputs[0][0];
-  const nextPhase = this.inputs[1][0];
+  const freq_next = this.inputs[0][0];
+  const phase_next = this.inputs[1][0];
   const radtoinc = this._radtoinc;
   const cpstoinc = this._cpstoinc;
 
@@ -177,7 +177,7 @@ dspProcess["kk"] = function(inNumSamples) {
   let phase = this._phase;
   let x = this._x;
 
-  if (nextFreq === freq && nextPhase === phase) {
+  if (freq_next === freq && phase_next === phase) {
     for (let i = 0; i < inNumSamples; i++) {
       const ix = x + phase * radtoinc;
       const i0 = (ix & kSineMask) << 1;
@@ -188,21 +188,21 @@ dspProcess["kk"] = function(inNumSamples) {
       x += freq * cpstoinc;
     }
   } else {
-    const freqSlope = (nextFreq - freq) * this._slopeFactor;
-    const phaseSlope = (nextPhase - phase) * this._slopeFactor;
+    const freq_slope = (freq_next - freq) * this._slopeFactor;
+    const phase_slope = (phase_next - phase) * this._slopeFactor;
 
     for (let i = 0; i < inNumSamples; i++) {
-      const ix = x + (phase + phaseSlope * i) * radtoinc;
+      const ix = x + (phase + phase_slope * i) * radtoinc;
       const i0 = (ix & kSineMask) << 1;
       const ia = ix % 1;
 
       out[i] = gSineWavetable[i0] + ia * gSineWavetable[i0 + 1];
 
-      x += (freq + freqSlope * i) * cpstoinc;
+      x += (freq + freq_slope * i) * cpstoinc;
     }
 
-    this._freq = nextFreq;
-    this._phase = nextPhase;
+    this._freq = freq_next;
+    this._phase = phase_next;
   }
 
   if (kSineSize <= x) {

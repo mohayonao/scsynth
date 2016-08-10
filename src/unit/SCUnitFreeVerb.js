@@ -1,6 +1,5 @@
 "use strict";
 
-const assert = require("assert");
 const SCUnit = require("../SCUnit");
 const SCUnitRepository = require("../SCUnitRepository");
 const clamp = require("../util/clamp");
@@ -8,8 +7,6 @@ const dspProcess = {};
 
 class SCUnitFreeVerb extends SCUnit {
   initialize() {
-    assert(this.inputs.length === 4);
-
     this.dspProcess = dspProcess["akkk"];
 
     this._iota0 = 0;
